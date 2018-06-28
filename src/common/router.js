@@ -171,6 +171,25 @@ export const getRouterData = app => {
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
+    // by hzy
+    '/example/main-list': {
+      component: dynamicWrapper(app, ['example', 'dictionary'], () =>
+        import('../routes/Example/MainList')
+      ),
+      authority: ['admin', 'clouduser'],
+    },
+    '/example/main-profile/:pid': {
+      component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainProfile')),
+      authority: ['admin', 'clouduser'],
+    },
+    '/example/main-import': {
+      component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainImport')),
+      authority: ['admin', 'clouduser'],
+    },
+    // =========下面是本系统真正的路径====================
+    '/user/cloudlogin': {
+      component: dynamicWrapper(app, ['login'], () => import('../routes/User/CloudLogin')),
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

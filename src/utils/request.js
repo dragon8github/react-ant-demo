@@ -2,6 +2,8 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
+// by hzy
+import { getAuthorityToken } from './authority';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -47,18 +49,44 @@ export default function request(url, options) {
     credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
+  // by hzy
+  newOptions.headers = {
+    'authority-token': getAuthorityToken(),
+    ...newOptions.headers,
+  };
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
     newOptions.method === 'DELETE'
   ) {
     if (!(newOptions.body instanceof FormData)) {
-      newOptions.headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers,
-      };
-      newOptions.body = JSON.stringify(newOptions.body);
+      // 支持表单post by hzy
+      if (
+        newOptions['Content-Type'] &&
+        newOptions['Content-Type'].indexOf('x-www-form-urlencoded') > 0
+      ) {
+        newOptions.headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+          ...newOptions.headers,
+        };
+        let formparams = '';
+        Object.keys(options.body).forEach(key => {
+          if (formparams.length > 0) {
+            formparams += '&';
+          }
+          formparams = formparams + key + '=' + options.body[key];
+        });
+        newOptions.body = formparams;
+      } else {
+        newOptions.headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+          ...newOptions.headers,
+        };
+
+        newOptions.body = JSON.stringify(newOptions.body);
+      }
     } else {
       // newOptions.body is FormData
       newOptions.headers = {

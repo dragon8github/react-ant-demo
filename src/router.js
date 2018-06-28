@@ -17,6 +17,7 @@ function RouterConfig({ history, app }) {
   const routerData = getRouterData(app);
   const UserLayout = routerData['/user'].component;
   const BasicLayout = routerData['/'].component;
+  // by hzy
   return (
     <LocaleProvider locale={zhCN}>
       <ConnectedRouter history={history}>
@@ -25,8 +26,8 @@ function RouterConfig({ history, app }) {
           <AuthorizedRoute
             path="/"
             render={props => <BasicLayout {...props} />}
-            authority={['admin', 'user']}
-            redirectPath="/user/login"
+            authority={['admin', 'user', 'guest', 'clouduser']}
+            redirectPath="/user/cloudlogin"
           />
         </Switch>
       </ConnectedRouter>

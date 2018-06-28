@@ -27,4 +27,19 @@ export default {
   disableDynamicImport: true,
   publicPath: '/',
   hash: true,
+  proxy: {
+    '/api/admin': {
+      target: 'http://127.0.0.1:8080/',
+      changeOrigin: true,
+      // "pathRewrite": { "^/lmapi" : "/api" }
+    },
+    '/api/framework': {
+      target: 'http://127.0.0.1:8080/',
+      changeOrigin: true,
+    },
+    '/api/ljdp': {
+      target: 'http://127.0.0.1:8080/',
+      changeOrigin: true,
+    },
+  },
 };

@@ -175,3 +175,5 @@ function formatter(data, parentPath = '/', parentAuthority) {
 }
 
 export const getMenuData = () => formatter(menuData);
+// by hzy
+export const formatterMenu = m => formatter(m);

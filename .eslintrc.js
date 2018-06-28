@@ -60,6 +60,9 @@ module.exports = {
     'function-paren-newline': [0],
     'no-restricted-globals': [0],
     'require-yield': [1],
+    'linebreak-style': ['off', 'windows'],
+    'prefer-template': 'off',
+    'no-param-reassign': 1,
   },
   parserOptions: {
     ecmaFeatures: {

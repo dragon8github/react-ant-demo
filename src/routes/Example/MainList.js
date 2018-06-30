@@ -334,6 +334,11 @@ export default class MainList extends PureComponent {
     });
   };
 
+  handleEdit2 = (e, key) => {
+    const { dispatch } = this.props;
+    dispatch(routerRedux.push(`/example/main-form/edit/${key}`));
+  };
+
   handleShow = (e, key) => {
     const { dispatch } = this.props;
     dispatch(routerRedux.push(`/example/main-profile/${key}`));
@@ -349,6 +354,11 @@ export default class MainList extends PureComponent {
       isNew: true,
       editingKey: '',
     });
+  };
+
+  handleAdd2 = () => {
+    const { dispatch } = this.props;
+    dispatch(routerRedux.push(`/example/main-form/add/0`));
   };
 
   handleSave = fields => {
@@ -504,6 +514,8 @@ export default class MainList extends PureComponent {
           <Fragment>
             <a onClick={e => this.handleEdit(e, record.userid)}>编辑</a>
             <Divider type="vertical" />
+            <a onClick={e => this.handleEdit2(e, record.userid)}>编辑2</a>
+            <Divider type="vertical" />
             <a onClick={e => this.handleShow(e, record.userid)}>查看</a>
           </Fragment>
         ),
@@ -526,6 +538,9 @@ export default class MainList extends PureComponent {
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={this.handleAdd}>
                 新建
+              </Button>
+              <Button icon="plus" type="primary" onClick={this.handleAdd2}>
+                新建2
               </Button>
               {selectedRows.length > 0 && (
                 <span>

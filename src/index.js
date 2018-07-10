@@ -1,14 +1,21 @@
-import './polyfill';
+// dva = React-Router + Redux + Redux-saga
 import dva from 'dva';
 
+// 'history/createBrowserHistory'
 import createHistory from 'history/createHashHistory';
-// user BrowserHistory
-// import createHistory from 'history/createBrowserHistory';
-import createLoading from 'dva-loading';
-import 'moment/locale/zh-cn';
-import './rollbar';
 
+// 可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading，在/src/router.js中设置loading的组件
+import createLoading from 'dva-loading';
+
+// 兼容低版本浏览器的补丁
+import './polyfill';
+
+// 自动兼容客户端时区
+import 'moment/locale/zh-cn';
+
+// 加载公共css
 import './index.less';
+
 // 1. Initialize
 const app = dva({
   history: createHistory(),
@@ -26,4 +33,4 @@ app.router(require('./router').default);
 // 5. Start
 app.start('#root');
 
-export default app._store; // eslint-disable-line
+export default app._store;

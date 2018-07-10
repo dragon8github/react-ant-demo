@@ -3,22 +3,23 @@ import dynamic from 'dva/dynamic';
 import pathToRegexp from 'path-to-regexp';
 import { getMenuData } from './menu';
 
+// 路由缓存数据
 let routerDataCache;
 
-const modelNotExisted = (app, model) =>
-  // eslint-disable-next-line
-  !app._models.some(({ namespace }) => {
+// 检查模块（namespace）是否存在?
+const modelNotExisted = (app, model) => {
+  // 从dva的所有models中遍历，如果存在指定的model（根据命名空间namespace判断），那么就返回true，否则返回false
+  return !app._models.some(({ namespace }) => {
+    // 数组遍历中哪怕一个返回true， Array.prototype.some 就会返回true
     return namespace === model.substring(model.lastIndexOf('/') + 1);
   });
+};
 
-// wrapper of dynamic
+// 组件动态加载器（不仅加载组件，更重要的是顺便将组件dva models加载进来）
 const dynamicWrapper = (app, models, component) => {
-  // () => require('module')
-  // transformed by babel-plugin-dynamic-import-node-sync
   if (component.toString().indexOf('.then(') < 0) {
     models.forEach(model => {
       if (modelNotExisted(app, model)) {
-        // eslint-disable-next-line
         app.model(require(`../models/${model}`).default);
       }
     });
@@ -32,28 +33,35 @@ const dynamicWrapper = (app, models, component) => {
       });
     };
   }
-  // () => import('module')
+
+  // 组件动态加载：https://dvajs.com/api/#dva-dynamic
   return dynamic({
+    // app: dva 实例，加载 models 时需要
     app,
-    models: () =>
-      models.filter(model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`)),
-    // add routerData prop
+    // models: 返回 Promise 数组的函数，Promise 返回 dva model
+    models: () => {
+      models.filter(model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`));
+    },
+    // component：返回 Promise 的函数，Promise 返回 React Component
     component: () => {
       if (!routerDataCache) {
         routerDataCache = getRouterData(app);
       }
       return component().then(raw => {
         const Component = raw.default || raw;
-        return props =>
+        return props => {
           createElement(Component, {
             ...props,
             routerData: routerDataCache,
           });
+        };
       });
     },
   });
 };
 
+// 将 menus.js 中的自定义 json 格式，转化为路由要求的 json 格式。
+// 譬如：'/user/login': {name: "登录", path: "/user/login", authority: "guest"}
 function getFlatMenuData(menus) {
   let keys = {};
   menus.forEach(item => {
@@ -72,6 +80,7 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
+
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
@@ -82,10 +91,8 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['project', 'activities', 'chart'], () =>
         import('../routes/Dashboard/Workplace')
       ),
-      // hideInBreadcrumb: true,
-      // name: '工作台',
-      // authority: 'admin',
     },
+
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
@@ -93,20 +100,21 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm')),
     },
     '/form/step-form/info': {
-      name: '分步表单（填写转账信息）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
+      name: '分步表单（填写转账信息）',
     },
     '/form/step-form/confirm': {
-      name: '分步表单（确认转账信息）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
+      name: '分步表单（确认转账信息）',
     },
     '/form/step-form/result': {
-      name: '分步表单（完成）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
+      name: '分步表单（完成）',
     },
     '/form/advanced-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
     },
+
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
     },
@@ -128,6 +136,7 @@ export const getRouterData = app => {
     '/list/search/articles': {
       component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
     },
+
     '/profile/basic': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
     },
@@ -136,12 +145,12 @@ export const getRouterData = app => {
         import('../routes/Profile/AdvancedProfile')
       ),
     },
+
     '/result/success': {
       component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
     },
-    '/result/fail': {
-      component: dynamicWrapper(app, [], () => import('../routes/Result/Error')),
-    },
+    '/result/fail': { component: dynamicWrapper(app, [], () => import('../routes/Result/Error')) },
+
     '/exception/403': {
       component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },
@@ -156,9 +165,8 @@ export const getRouterData = app => {
         import('../routes/Exception/triggerException')
       ),
     },
-    '/user': {
-      component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
-    },
+
+    '/user': { component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')) },
     '/user/login': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
     },
@@ -168,10 +176,7 @@ export const getRouterData = app => {
     '/user/register-result': {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
     },
-    // '/user/:id': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
-    // },
-    // by hzy
+
     '/example/main-list': {
       component: dynamicWrapper(app, ['example', 'dictionary'], () =>
         import('../routes/Example/MainList')
@@ -190,39 +195,48 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainImport')),
       authority: ['admin', 'clouduser'],
     },
-    // =========下面是本系统真正的路径====================
+
     '/user/cloudlogin': {
       component: dynamicWrapper(app, ['login'], () => import('../routes/User/CloudLogin')),
     },
+    '/test': { component: dynamicWrapper(app, [], () => import('../routes/Example/test')) },
   };
+
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
 
-  // Route configuration data
-  // eg. {name,authority ...routerConfig }
+  // （重要）最终返回的路由对象
   const routerData = {};
-  // The route matches the menu
+
+  // 遍历路由配置信息，根据 routerConfig 中每一项的key，映射到menuData（./menu.js）中数据
+  // 然后将两条路由数据合并为一条完整的路由数据，录入到routerData后返回。
+  // 点评：老实说我不知道这样做的意义和作用是什么，为什么不干脆从一开始就直接写在routerConfig中？
   Object.keys(routerConfig).forEach(path => {
-    // Regular match item name
-    // eg.  router /user/:id === /user/chen
+    // 根据路由path转化为一个正则表达式对象
     const pathRegexp = pathToRegexp(path);
+
+    // 从menuData（./menu.js）中寻找匹配正则的数据
     const menuKey = Object.keys(menuData).find(key => pathRegexp.test(`${key}`));
+
+    // menuData中的匹配项
     let menuItem = {};
-    // If menuKey is not empty
     if (menuKey) {
       menuItem = menuData[menuKey];
     }
+
+    // 当前遍历项
     let router = routerConfig[path];
-    // If you need to configure complex parameter routing,
-    // https://github.com/ant-design/ant-design-pro-site/blob/master/docs/router-and-nav.md#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E8%B7%AF%E7%94%B1%E8%8F%9C%E5%8D%95
-    // eg . /list/:type/user/info/:id
+    // 合并成为新对象（优先级为当前的routerConfig比较高）
     router = {
       ...router,
       name: router.name || menuItem.name,
       authority: router.authority || menuItem.authority,
       hideInBreadcrumb: router.hideInBreadcrumb || menuItem.hideInBreadcrumb,
     };
+
+    // 录入
     routerData[path] = router;
   });
+
   return routerData;
 };

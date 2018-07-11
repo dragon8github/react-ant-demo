@@ -198,7 +198,7 @@ class BasicLayout extends React.PureComponent {
 
       const { isMobile: mb } = this.state;
 
-      const bashRedirect = this.getBaseRedirect();
+      let bashRedirect = this.getBaseRedirect();
       
       const layout = (
         <Layout>
@@ -232,28 +232,28 @@ class BasicLayout extends React.PureComponent {
             </Header>
 
             <Content style={{ margin: '24px 24px 0', height: '100%' }}>
-              <Switch>
+                <Switch>
 
-                {redirectData.map(item => (
-                  <Redirect key={item.from} exact from={item.from} to={item.to} />
-                ))}
+                  {redirectData.map(item => (
+                    <Redirect key={item.from} exact from={item.from} to={item.to} />
+                  ))}
 
-                {getRoutes(match.path, routerData).map(item => (
-                    <AuthorizedRoute
-                        key={item.key}
-                        path={item.path}
-                        component={item.component}
-                        exact={item.exact}
-                        authority={item.authority}
-                        redirectPath="/exception/403"
-                    />
-                ))}
+                  {getRoutes(match.path, routerData).map(item => (
+                      <AuthorizedRoute
+                          key={item.key}
+                          path={item.path}
+                          component={item.component}
+                          exact={item.exact}
+                          authority={item.authority}
+                          redirectPath="/exception/403"
+                      />
+                  ))}
 
-                <Redirect exact from="/" to={bashRedirect} />
+                  <Redirect exact from="/" to={bashRedirect} />
 
-                <Route render={NotFound} />
+                  <Route render={NotFound} />
 
-              </Switch>
+                </Switch>
             </Content>
 
             <Footer style={{ padding: 0 }}>

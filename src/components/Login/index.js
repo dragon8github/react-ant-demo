@@ -15,17 +15,17 @@ class Login extends Component {
     onSubmit: PropTypes.func,
   };
 
-  static childContextTypes = {
-    tabUtil: PropTypes.object,
-    form: PropTypes.object,
-    updateActive: PropTypes.func,
-  };
-
   static defaultProps = {
     className: '',
     defaultActiveKey: '',
     onTabChange: () => {},
     onSubmit: () => {},
+  };
+
+  static childContextTypes = {
+    tabUtil: PropTypes.object,
+    form: PropTypes.object,
+    updateActive: PropTypes.func,
   };
 
   constructor(props) {
@@ -91,31 +91,27 @@ class Login extends Component {
     const { type, tabs } = this.state;
     const TabChildren = [];
     const otherChildren = [];
+
     React.Children.forEach(children, item => {
       if (!item) {
         return;
       }
-      // eslint-disable-next-line
       if (item.type.__ANT_PRO_LOGIN_TAB) {
         TabChildren.push(item);
       } else {
         otherChildren.push(item);
       }
     });
+
     return (
       <div className={classNames(className, styles.login)}>
         <Form onSubmit={this.handleSubmit}>
           {tabs.length ? (
             <div>
-              <Tabs
-                animated={false}
-                className={styles.tabs}
-                activeKey={type}
-                onChange={this.onSwitch}
-              >
-                {TabChildren}
-              </Tabs>
-              {otherChildren}
+                <Tabs animated={false} className={styles.tabs} activeKey={type} onChange={this.onSwitch} >
+                    {TabChildren}
+                </Tabs>
+                {otherChildren}
             </div>
           ) : (
             [...children]
@@ -128,6 +124,7 @@ class Login extends Component {
 
 Login.Tab = LoginTab;
 Login.Submit = LoginSubmit;
+
 Object.keys(LoginItem).forEach(item => {
   Login[item] = LoginItem[item];
 });

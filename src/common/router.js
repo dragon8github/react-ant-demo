@@ -79,6 +79,9 @@ export const getRouterData = app => {
     const routerConfig = {
         '/': { component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')), },
 
+        '/user/cloudlogin': { component: dynamicWrapper(app, ['login'], () => import('../routes/User/CloudLogin')), },
+        '/test': { component: dynamicWrapper(app, [], () => import('../routes/Example/test')), },
+
         '/dashboard/analysis': { component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')), },
         '/dashboard/monitor': { component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')), },
         '/dashboard/workplace': { component: dynamicWrapper(app, ['project', 'activities', 'chart'], () => import('../routes/Dashboard/Workplace')), },
@@ -118,9 +121,6 @@ export const getRouterData = app => {
         '/example/main-profile/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainProfile')), authority: ['admin', 'clouduser'], },
         '/example/main-form/:opertype/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainEdit')), authority: ['admin', 'clouduser'], },
         '/example/main-import': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainImport')), authority: ['admin', 'clouduser'], },
-
-        '/user/cloudlogin': { component: dynamicWrapper(app, ['login'], () => import('../routes/User/CloudLogin')), },
-        '/test': { component: dynamicWrapper(app, [], () => import('../routes/Example/test')), },
     };
 
     // Get name from ./menu.js or just set it in the router data.

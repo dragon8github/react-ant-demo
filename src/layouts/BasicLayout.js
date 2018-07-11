@@ -1,25 +1,30 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Layout, Icon, message } from 'antd';
-import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
-import { ContainerQuery } from 'react-container-query';
+
+import { Layout, Icon, message } from 'antd';
+
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
+import PropTypes from 'prop-types';
+import DocumentTitle from 'react-document-title';
+import { ContainerQuery } from 'react-container-query';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
+
 import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 import SiderMenu from '../components/SiderMenu';
 import NotFound from '../routes/Exception/404';
 import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
-// 改为后端动态获取 by hzy
-// import { getMenuData } from '../common/menu';
+
 import logo from '../assets/logo.svg';
 
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
+
+// 改为后端动态获取 by hzy
+// import { getMenuData } from '../common/menu';
 
 /**
  * 根据菜单取得重定向地址. by hzy

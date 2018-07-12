@@ -1,11 +1,13 @@
-// use localStorage to store the authority info, which might be sent from server in actual project.
+// 获取用户权限
 export function getAuthority() {
   return sessionStorage.getItem('antd-pro-authority') || 'notaccess';
 }
 
+// 设置用户权限
 export function setAuthority(authority) {
   return sessionStorage.setItem('antd-pro-authority', authority);
 }
+
 // 对接ljdp后端登录的验证 by hzy
 export function setAuthorityCloud(user) {
   if (user.userAccount.length > 0) {

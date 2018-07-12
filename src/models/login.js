@@ -85,52 +85,42 @@ export default {
       *cloudLogin({ payload }, { call, put }) {
           // 对接ljdp后端登录
           const response = yield call(loginAdminUser, payload);
-          // if (response) {
-              yield put({
-                type: 'changeCloudLoginStatus',
-                payload: response,
-              });
-              // Login successfully
-              if (response.code === 200) {
-                reloadAuthorized();
-
-                const menuResult = yield call(queryMyMenuData);
-                yield put({
-                  type: 'updateMenus',
-                  payload: menuResult,
-                });
-
-                yield put(routerRedux.push('/'));
-              }
-          // }
+          // 根据登录状态进行UI交互
+          yield put({ type: 'changeCloudLoginStatus', payload: response });
+          // 登录成功
+          if (response && response.code === 200) {
+              // 设置当前登录的账号
+              setAuthorityCloud(payload.user);
+              // 刷新用户权限
+              reloadAuthorized();
+              // 删除缓存的菜单数据
+              sessionStorage.removeItem(STORE_MENUS);
+              // 获取菜单数据
+              const menuResult = yield call(queryMyMenuData);
+              // 更新菜单数据
+              yield put({ type: 'updateMenus', payload: menuResult });
+              // 重新跳转首页，重新触发AuthorizedRoute组件的逻辑，然后跳转到第一个路由中去
+              yield put(routerRedux.push('/'));
+          }
       },
     },
 
     reducers: {
       changeLoginStatus(state, { payload }) {
-        // 官方演示登录的话，先退出我们的登录 by hzy
-        // 清空登录信息，清空sessionStroage
+        // 清空登录信息，清空sessionStroage（官方演示登录的话，先退出我们的登录 by hzy）
         setAuthorityCloud({ userAccount: '' });
+        // 清空缓存的菜单数据
         sessionStorage.removeItem(STORE_MENUS);
+        // 设置用户权限
         setAuthority(payload.currentAuthority);
-        return {
-          ...state,
-          status: payload.status,
-          type: payload.type,
-        };
+        // 更新（合并）state
+        return { ...state, status: payload.status, type: payload.type };
       },
-      // 对接ljdp后端登录 by hzy
+      // 根据登录状态进行UI交互 by hzy
       changeCloudLoginStatus(state, { payload }) {
-        if (payload) {
-          // 设置当前登录的账号
-          setAuthorityCloud(payload.user);
-          // 删除缓存的菜单数据
-          sessionStorage.removeItem(STORE_MENUS);
-        }
-
         const status = payload && payload.code === 200 ? 'ok' : 'error';
-        const type = payload ? payload.type : "account";
-
+        const type = payload && payload.type ? payload.type : "account";
+        // 更新（合并）state
         return { ...state, status, type };
       },
       updateMenus(state, action) {

@@ -287,10 +287,10 @@ class BasicLayout extends React.PureComponent {
 }
 // by hzy
 export default connect(({ user, login, global = {}, loading }) => ({
-  currentUser: user.currentUser,
-  collapsed: global.collapsed,
-  fetchingNotices: loading.effects['global/fetchNotices'],
-  notices: global.notices,
-  menuData: login.menuData,
-  redirectData: login.redirectData,
+    currentUser: user.currentUser,
+    fetchingNotices: loading.effects['global/fetchNotices'],
+    collapsed: global.collapsed,
+    notices: global.notices,
+    menuData: login.menuData,         // by hzy
+    redirectData: login.redirectData, // by hzy
 }))(BasicLayout);

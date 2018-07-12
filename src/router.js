@@ -16,10 +16,10 @@ export default function RouterConfig({ history, app }) {
             <Switch>
                 <Route path="/user" component={UserLayout} />
                 <AuthorizedRoute
-                path="/"
-                render={props => <BasicLayout {...props} />}
-                authority={['admin', 'user', 'guest', 'clouduser']}
-                redirectPath="/user/cloudlogin"
+                    path="/"
+                    render={props => <BasicLayout {...props} />}
+                    authority={['admin', 'user', 'guest', 'clouduser']}
+                    redirectPath="/user/cloudlogin"
                 />
             </Switch>
         </ConnectedRouter>

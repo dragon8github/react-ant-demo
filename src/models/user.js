@@ -19,8 +19,9 @@ export default {
       });
     },
     *fetchCurrent(_, { call, put }) {
-      // by hzy
+      // 获取用户权限 by hzy
       const currentAuthority = getAuthority();
+      // 如果是云用户
       if (currentAuthority === 'clouduser') {
         yield put({
           type: 'saveCurrentUser',

@@ -18,6 +18,7 @@ export default {
         payload: response,
       });
     },
+    // 获取用户信息
     *fetchCurrent(_, { call, put }) {
       // 获取用户权限 by hzy
       const currentAuthority = getAuthority();

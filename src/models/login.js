@@ -6,7 +6,7 @@ import { queryMyMenuData } from '../services/user';
 import { getMenuData, formatterMenu } from '../common/menu';
 
 import { setAuthority, setAuthorityCloud } from '../utils/authority'; // by hzy
-import { reloadAuthorized } from '../utils/Authorized';   // by hzy
+import { reloadAuthorized } from '../utils/Authorized';               // by hzy
 
 const STORE_MENUS = 'antd-menus';
 
@@ -50,7 +50,7 @@ export default {
           // 登录
           const response = yield call(loginAdminUser, payload);
           // 根据登录状态进行UI交互
-          yield put({ type: 'changeCloudLoginStatus', payload: response });
+          yield put({ type: 'changeCloudLoginStatus', code: response && response.code, loginType: payload.type });
           // 登录成功
           if (response && response.code === 200) {
               // 设置当前登录的账号
@@ -102,11 +102,10 @@ export default {
     },
     reducers: {
         // 根据登录状态进行UI交互 by hzy
-        changeCloudLoginStatus(state, { payload }) {
-            const status = payload && payload.code === 200 ? 'ok' : 'error';
-            const type = payload && payload.type ? payload.type : "account";
+        changeCloudLoginStatus(state, { code, loginType }) {
+            const status = code === 200 ? 'ok' : 'error';
             // 更新（合并）state
-            return { ...state, status, type };
+            return { ...state, status, type: loginType };
         },
         // 【*login官方登录】和【*logou退出】会使用此方法。我们只关注退出逻辑是否正常即可。
         changeLoginStatus(state, { payload }) {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Map } from 'react-amap';
 
 export default class test extends Component {
 	constructor (props) {
@@ -6,17 +7,20 @@ export default class test extends Component {
 	}
 
 	state = {
-		color: 'blue'
+		color: 'blue',
+		YOUR_AMAP_KEY: '9f1c132e77dc10edf34fe44bec1208a9',
+		VERSION: '1.4.0'
 	}
 
 	componentDidMount () {
-		console.log(arguments);
+		console.log(this.state.YOUR_AMAP_KEY);
 	}
 
 	render () {
-        const { text } = this.props
 		return (
-			<div>test</div>
+			<div style={{width: 500, height: 500}}>
+				<Map amapkey={this.state.YOUR_AMAP_KEY} VERSION={this.state.VERSION} />
+			</div>
 		)
 	}
 }

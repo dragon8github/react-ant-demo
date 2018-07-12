@@ -29,7 +29,7 @@ export default class LoginPage extends Component {
       const { dispatch } = this.props;
 
       if (!err) {
-        dispatch({ type: 'login/cloudLogin', payload: {...values, type, } });
+        dispatch({ type: 'login/cloudLogin', payload: {...values, type } });
       }
   };
 

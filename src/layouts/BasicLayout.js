@@ -76,17 +76,18 @@ let isMobile;
 enquireScreen(b => {  isMobile = b; });
 
 class BasicLayout extends React.PureComponent {
-    // context
+
+    state = {
+      isMobile,
+    };
+    
     static childContextTypes = {
       location: PropTypes.object,
       breadcrumbNameMap: PropTypes.object,
     };
 
-    state = {
-      isMobile,
-    };
-
     getChildContext() {
+       console.log(20180712151242, this.props);
       // by hzy
       const { menuData, location, routerData } = this.props;
       return {
@@ -96,15 +97,11 @@ class BasicLayout extends React.PureComponent {
     }
 
     componentDidMount() {
-      this.enquireHandler = enquireScreen(mobile => {
-        this.setState({
-          isMobile: mobile,
+        this.enquireHandler = enquireScreen(mobile => {
+            this.setState({ isMobile: mobile });
         });
-      });
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
+        const { dispatch } = this.props;
+        dispatch({ type: 'user/fetchCurrent' });
     }
 
     componentWillUnmount() {

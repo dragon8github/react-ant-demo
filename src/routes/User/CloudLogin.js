@@ -18,7 +18,7 @@ export default class LoginPage extends Component {
     autoLogin: true,
   };
 
-  // 切换登录方式
+  // 切换登录方式的时候触发
   onTabChange = type => {
       this.setState({ type });
   };
@@ -29,7 +29,7 @@ export default class LoginPage extends Component {
       const { dispatch } = this.props;
 
       if (!err) {
-        dispatch({ type: 'login/cloudLogin', payload: {...values, type } });
+            dispatch({ type: 'login/cloudLogin', payload: {...values, type } });
       }
   };
 

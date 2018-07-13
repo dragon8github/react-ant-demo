@@ -24,6 +24,7 @@ import logo from '../assets/logo.svg';
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
 
+
 /**
  * 获取面包屑映射
  * @param {Object} menuData 菜单配置
@@ -56,7 +57,17 @@ const query = {
 let isMobile;
 enquireScreen(b => {  isMobile = b; });
 
-class BasicLayout extends React.PureComponent {
+// 将 model 和 component 串联起来
+@connect(({ user, login, global = {}, loading }) => ({
+  currentUser: user.currentUser,
+  collapsed: global.collapsed,
+  fetchingNotices: loading.effects['global/fetchNotices'],
+  notices: global.notices,
+  menuData: login.menuData,         // by hzy
+  redirectData: login.redirectData, // by hzy
+}))
+
+export default class BasicLayout extends React.PureComponent {
 
     state = {
       isMobile,
@@ -233,13 +244,3 @@ class BasicLayout extends React.PureComponent {
       );
     }
 }
-
-// 将 model 和 component 串联起来
-export default connect(({ user, login, global = {}, loading }) => ({
-    currentUser: user.currentUser,
-    collapsed: global.collapsed,
-    fetchingNotices: loading.effects['global/fetchNotices'],
-    notices: global.notices,
-    menuData: login.menuData,         // by hzy
-    redirectData: login.redirectData, // by hzy
-}))(BasicLayout);

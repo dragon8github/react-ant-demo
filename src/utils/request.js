@@ -22,11 +22,13 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
+  // 弹出错误通知
   notification.error({
     message: `请求错误 ${response.status}: ${response.url}`,
     description: errortext,

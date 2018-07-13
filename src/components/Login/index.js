@@ -96,8 +96,11 @@ class Login extends Component {
       if (!item) {
         return;
       }
+
+      // Ant的原生组件
       if (item.type.__ANT_PRO_LOGIN_TAB) {
         TabChildren.push(item);
+      // 其他组件
       } else {
         otherChildren.push(item);
       }
@@ -124,7 +127,7 @@ class Login extends Component {
 
 Login.Tab = LoginTab;
 Login.Submit = LoginSubmit;
-
+// UserName Password Mobile Captcha UserName Password Mobile Captcha UserName Password Mobile Captcha
 Object.keys(LoginItem).forEach(item => {
   Login[item] = LoginItem[item];
 });

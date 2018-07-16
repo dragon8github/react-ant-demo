@@ -20,7 +20,7 @@ export default function RouterConfig({ history, app }) {
                     path="/"
                     // 权限判定列表
                     authority={['admin', 'user', 'guest', 'clouduser']}
-                    // 如果匹配通过则渲染后台布局
+                    // 如果权限检查通过则渲染后台布局
                     render={props => <BasicLayout {...props} />}
                     // 如果检查不通过重定向的地址
                     redirectPath="/user/cloudlogin"

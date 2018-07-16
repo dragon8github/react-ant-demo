@@ -45,11 +45,11 @@ export default {
     },
 
     effects: {
-      // by hzy
+      // 云登录
       *cloudLogin({ payload }, { call, put }) {
           // 登录
           const response = yield call(loginAdminUser, payload);
-          // 根据登录状态进行UI交互
+          // 修改登录状态以进行UI交互
           yield put({ type: 'changeCloudLoginStatus', code: response && response.code, loginType: payload.type });
           // 登录成功
           if (response && response.code === 200) {

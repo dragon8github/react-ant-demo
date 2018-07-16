@@ -16,11 +16,13 @@ export default function RouterConfig({ history, app }) {
             <Switch>
                 <Route path="/user" component={UserLayout} />
                 <AuthorizedRoute
+                    // 除了 “/user/xxxx” 以外所有的url都会匹配到 “/” 路径
                     path="/"
-                    // 请注意这里的render，并不是route的render。而仅仅是属性而已。
-                    // 实际是这个并不是一个route对象，不过，最终这里的props也确实是route对象的render的props。
-                    render={props => <BasicLayout {...props} />}
+                    // 权限判定列表
                     authority={['admin', 'user', 'guest', 'clouduser']}
+                    // 如果匹配通过则渲染后台布局
+                    render={props => <BasicLayout {...props} />}
+                    // 如果检查不通过重定向的地址
                     redirectPath="/user/cloudlogin"
                 />
             </Switch>

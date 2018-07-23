@@ -41,5 +41,9 @@ export default {
       target: 'http://47.104.141.35:8080/',
       changeOrigin: true,
     },
+    '/api/ogp/opm': {
+      target: 'http://192.168.8.107:8080',
+      changeOrigin: true,
+    },
   },
 };

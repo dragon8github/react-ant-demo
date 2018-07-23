@@ -4,8 +4,8 @@ const { match, routerData, localtion } = this.props;
 ```
 总之打印一下this.props就知道了。很多东西dva在初始化路由的时候就帮我们注入了。
 
-### 权限是怎么设计的？
-权限主要是根据路由来设计的。最简单的理解，如果你进入登录注册之类的/user类界面，肯定不需要判断你的权限。而其他后台界面，则都需要判断你的权限了。所以，要了解后台权限的设计，应该从路由以及权限组件AuthorizedRoute入手
+### 权限是怎么设计的？权限组件应该怎么学习和理解？
+权限主要是根据路由来设计的。最简单的理解，如果你进入登录注册之类的/user类界面，肯定不需要判断你的权限。而其他后台界面，则都需要判断你的权限了。所以，要了解后台权限的设计，应该从路由以及权限组件<AuthorizedRoute />入手
 
 我们知道登录界面和后台界面的布局是不一样的：登录界面呈现出全屏，而后台界面有明显的区域分割。
 事实上这也是根据路由来实现的。不同的路由使用不同的布局。代码如下：
@@ -79,7 +79,7 @@ render={props => <BasicLayout {...props} />}
 component={item.component}
 
 ### 权限组件<AuthorizedRoute/> 相关的三个最重要文件：
-主要看这三个文件，由外往内分别是：
+主要看这三个文件，由外往内分别是： AuthorizedRoute.js -> Authorized.js -> CheckPermissions.js
 1、AuthorizedRoute.js
 外部使用的就是这个组件，收集属性，并且执行Authorized来验证合法性。
 

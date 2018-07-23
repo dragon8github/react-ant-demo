@@ -79,6 +79,21 @@ export const getRouterData = app => {
     const routerConfig = {
         '/': { component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')), },
         
+
+        '/opm/ogpPipelineFoundation-list': {
+          component: dynamicWrapper(app, ['opm/ogpPipelineFoundation', 'dictionary'], () => import('../routes/opm/OgpPipelineFoundationList')),
+          authority: [ 'clouduser'],
+        },
+        '/opm/ogpPipelineFoundation-profile/:pid': {
+          component: dynamicWrapper(app, ['opm/ogpPipelineFoundation'], () => import('../routes/opm/OgpPipelineFoundationProfile')),
+          authority: ['clouduser'],
+        },
+        '/opm/ogpPipelineFoundation-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['opm/ogpPipelineFoundation'], () => import('../routes/opm/OgpPipelineFoundationEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+    
+
         '/example/main-list': { component: dynamicWrapper(app, ['example', 'dictionary'], () => import('../routes/Example/MainList')), authority: ['admin', 'clouduser'], },
         '/example/main-profile/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainProfile')), authority: ['admin', 'clouduser'], },
         '/example/main-form/:opertype/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainEdit')), authority: ['admin', 'clouduser'], },

@@ -5,28 +5,80 @@ import moment from 'moment';
 import {
   Row,
   Col,
+  Icon,
   Card,
   Form,
   Input,
   Button,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
-  Divider,
 } from 'antd';
 import StandardTable from 'components/StandardTable';
-import DictSelect from 'components/DictSelect';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from '../List/TableList.less';
+import styles from '../List/BasicList.less';
+import cardstyles from '../List/CardList.less';
 
+const { Search } = Input;
 const FormItem = Form.Item;
 const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
 
+
+    
+const CreateForm = Form.create()(props => {
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="上传管道信息"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible(false)}
+      okText="确认"
+      cancelText="取消"
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="经纬度">
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入经纬度..." />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="镇街">
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入镇街..." />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="管道长度">
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入管道长度..." />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="开始位置">
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入开始位置..." />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="结束位置">
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入结束位置..." />)}
+      </FormItem>
+      <FormItem style={{ marginBottom: 0 }}>
+            <Button type="dashed" className={cardstyles.newButton} style={{height: 100}}>
+                    <Icon type="plus" /> 新增产品
+            </Button>
+      </FormItem>
+    </Modal>
+  );
+});
 
 @connect(({ ogpPipelineFoundation, dictionary, loading }) => ({
   ogpPipelineFoundation,
@@ -38,6 +90,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
   state = {
     selectedRows: [],
     formValues: {},
+    modalVisible: false
   };
 
   componentDidMount() {
@@ -55,6 +108,8 @@ export default class OgpPipelineFoundationList extends PureComponent {
     	codetype: 'risk.level',
     });
   }
+
+  
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -156,95 +211,48 @@ export default class OgpPipelineFoundationList extends PureComponent {
     });
   };
 
-  handleSearch = e => {
-    e.preventDefault();
+  handleSearch = content => {
+     console.log(20180723173704, e, '搜索')
+    // this.doSearch();
+  };
 
-    this.doSearch();
+  handleAddMap = e => {
+    console.log(20180723173507, '地图建模')
+  };
+
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: !!flag,
+    });
   };
   
-
-  handleShow = (e, key) => {
-	const { dispatch } = this.props;
-    dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-profile/${key}`));
-  };
-
   handleAdd = () => {
-	const { dispatch } = this.props;
-	dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-form/add/0`));
+    const { dispatch } = this.props;
+    dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-form/add/0`));
   };
   
   handleEdit = (e, key) => {
-	const { dispatch } = this.props;
-	dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-form/edit/${key}`));
+    const { dispatch } = this.props;
+    dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-form/edit/${key}`));
   };
-
-  renderAdvancedForm() {
-	const { dictionary, form } = this.props;
-    const { getFieldDecorator } = form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-      	<Col md={6} sm={24}>
-      	<FormItem label="审核状态=">
-      		{getFieldDecorator('eq_auditState')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="镇街like">
-      		{getFieldDecorator('like_town')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="所属公司like">
-      		{getFieldDecorator('like_company')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="风险等级=">
-      		{getFieldDecorator('eq_riskLevel')(
-                <DictSelect
-                  placeholder="请选择"
-                  style={{ width: '100%' }}
-                  dictList={dictionary['risk.level']}
-                />
-              )}
-      	</FormItem>
-      	</Col>
-      </Row>
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-      	<Col md={6} sm={24}>
-      	<FormItem label="状态=">
-      		{getFieldDecorator('eq_state')(
-                <DictSelect
-                  placeholder="请选择"
-                  style={{ width: '100%' }}
-                  dictList={dictionary['pipeline.state']}
-                />
-              )}
-      	</FormItem>
-      	</Col>
-      </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button icon="search" type="primary" htmlType="submit">
-              查询
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              重置
-            </Button>
-          </span>
-        </div>
-      </Form>
-    );
-  }
-
-  renderForm() {
-    return this.renderAdvancedForm();
-  }
 
   render() {
     const { ogpPipelineFoundation: { data, domain }, dictionary, loading } = this.props;
-    const { selectedRows } = this.state;
+    const { selectedRows, modalVisible } = this.state;
+
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleModalVisible: this.handleModalVisible,
+    };
+    
+    const extraContent = (
+      <div>
+        <div className={styles.extraContent}>
+          <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={ this.handleSearch } />
+        </div>
+      </div>
+     
+    );
 
     const columns = [
       {
@@ -303,42 +311,49 @@ export default class OgpPipelineFoundationList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <a onClick={e => this.handleEdit(e, record.pipelineId)}>编辑</a>
-            <Divider type="vertical" />
-            <a onClick={e => this.handleShow(e, record.pipelineId)}>查看</a>
+            <a onClick={e => this.handleEdit(e, record.pipelineId)}>审核</a>
           </Fragment>
         ),
       },
     ];
     
     return (
-      <PageHeaderLayout>
-        <Card bordered={false}>
-          <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{this.renderForm()}</div>
-            <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={this.handleAdd}>
-                新建
-              </Button>
-              {selectedRows.length > 0 && (
-                <span>
-                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
-                    删除
-                  </Button>
-                </span>
-              )}
+      <PageHeaderLayout >
+       <div className={styles.standardList}>
+          <Card 
+            className={styles.listCard} 
+            bordered={false} 
+            style={{ marginTop: 24 }}
+            bodyStyle={{ padding: '0 32px 40px 32px' }}
+            title={<Button icon="plus" type="primary" onClick={() => this.handleAddMap(true)}>地图建模</Button>}
+            extra={extraContent}
+          >          
+            <div className={styles.tableList}>
+              <div className={styles.tableListOperator}>
+                <Button type="dashed" style={{ width: '100%', marginBottom: 32 }} icon="plus" onClick={() => this.handleModalVisible(true)}>
+                  上传管道信息
+                </Button>
+                {selectedRows.length > 0 && (
+                  <span>
+                    <Button icon="minus" type="dashed" onClick={this.handleRemove}>
+                      删除
+                    </Button>
+                  </span>
+                )}
+              </div>
+              <StandardTable
+                selectedRows={selectedRows}
+                loading={loading}
+                data={data}
+                columns={columns}
+                onSelectRow={this.handleSelectRows}
+                onChange={this.handleStandardTableChange}
+                rowKey="pipelineId"
+              />
             </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
-              columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
-              rowKey="pipelineId"
-            />
+          </Card>
           </div>
-        </Card>
+          <CreateForm {...parentMethods} modalVisible={modalVisible} />
         </PageHeaderLayout>
     );
   }

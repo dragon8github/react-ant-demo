@@ -29,7 +29,7 @@ export default {
   hash: true,
   proxy: {
     '/api/admin': {
-      target: 'http://47.104.141.35:8080/',
+      target: 'http://192.168.8.107:8080/',
       changeOrigin: true,
       // "pathRewrite": { "^/lmapi" : "/api" }
     },

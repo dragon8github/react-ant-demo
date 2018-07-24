@@ -12,6 +12,7 @@ import {
   Button,
   Modal,
   message,
+  Popconfirm
 } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -236,6 +237,8 @@ export default class OgpPipelineFoundationList extends PureComponent {
     dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-form/edit/${key}`));
   };
 
+ 
+
   render() {
     const { ogpPipelineFoundation: { data, domain }, dictionary, loading } = this.props;
     const { selectedRows, modalVisible } = this.state;
@@ -244,6 +247,10 @@ export default class OgpPipelineFoundationList extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
+
+    const confirm = (...rest) => {
+      message.success('审核成功');
+    }
     
     const extraContent = (
       <div>
@@ -311,10 +318,10 @@ export default class OgpPipelineFoundationList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
-          <Fragment>
-            <a onClick={e => this.handleEdit(e, record.pipelineId)}>审核</a>
-          </Fragment>
+        render: (...rest) => (
+          <Popconfirm title="你确定要审核通过该任务?" onConfirm={() => { confirm(rest) }} okText="Yes" cancelText="No">
+            <a>审核</a>
+          </Popconfirm>
         ),
       },
     ];

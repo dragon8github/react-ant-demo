@@ -79,7 +79,7 @@ export const getRouterData = app => {
     const routerConfig = {
         '/': { component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')), },
         
-
+        // 管道基础信息管理
         '/opm/ogpPipelineFoundation-list': {
           component: dynamicWrapper(app, ['opm/ogpPipelineFoundation', 'dictionary'], () => import('../routes/opm/OgpPipelineFoundationList')),
           authority: [ 'clouduser'],
@@ -92,6 +92,23 @@ export const getRouterData = app => {
             component: dynamicWrapper(app, ['opm/ogpPipelineFoundation'], () => import('../routes/opm/OgpPipelineFoundationEdit')),
             authority: ['admin', 'clouduser'],
         },
+
+        
+        // 安全管理部门人员待办事项界面
+        '/applyWorkList/ogpApplyWorkList-list': {
+          component: dynamicWrapper(app, ['applyWorkList/ogpApplyWorkList', 'dictionary'], () => import('../routes/applyWorkList/OgpApplyWorkListList')),
+          authority: [ 'clouduser'],
+        },
+        '/applyWorkList/ogpApplyWorkList-profile/:pid': {
+          component: dynamicWrapper(app, ['applyWorkList/ogpApplyWorkList'], () => import('../routes/applyWorkList/OgpApplyWorkListProfile')),
+          authority: ['clouduser'],
+        },
+        '/applyWorkList/ogpApplyWorkList-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['applyWorkList/ogpApplyWorkList'], () => import('../routes/applyWorkList/OgpApplyWorkListEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+    
+
     
 
         '/example/main-list': { component: dynamicWrapper(app, ['example', 'dictionary'], () => import('../routes/Example/MainList')), authority: ['admin', 'clouduser'], },

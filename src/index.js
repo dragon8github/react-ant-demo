@@ -15,6 +15,9 @@ import dynamic from 'dva/dynamic';
 import styles from './index.less';
 import { Spin } from 'antd';
 
+// datepick组件需要用到
+import 'moment/locale/zh-cn';
+
 // 1. 初始化app
 const app = dva({
   history: createHistory(),

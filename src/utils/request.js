@@ -104,7 +104,19 @@ export default function request(url, options) {
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
-      return response.json();
+
+      var json = response.json()
+      // Lee Add By 2018/7/24
+      json.then(_ => { 
+          if (_.code == 20020) {
+              // 弹出登陆超时通知
+              notification.error({ message: `登陆超时, 请重新登陆`,});
+              const { dispatch } = store;
+              dispatch({ type: 'login/logout' });
+              return;
+          }
+      })
+      return json
     })
     .catch(e => {
       const { dispatch } = store;

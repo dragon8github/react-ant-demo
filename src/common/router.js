@@ -79,7 +79,7 @@ export const getRouterData = app => {
     const routerConfig = {
         '/': { component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')), },
         
-        // 管道基础信息管理
+        // demo1 管道基础信息管理
         '/opm/ogpPipelineFoundation-list': {
           component: dynamicWrapper(app, ['opm/ogpPipelineFoundation', 'dictionary'], () => import('../routes/opm/OgpPipelineFoundationList')),
           authority: [ 'clouduser'],
@@ -92,6 +92,35 @@ export const getRouterData = app => {
             component: dynamicWrapper(app, ['opm/ogpPipelineFoundation'], () => import('../routes/opm/OgpPipelineFoundationEdit')),
             authority: ['admin', 'clouduser'],
         },
+
+        // demo1 任务管理
+        '/opm/ogpPatrolTask-list': {
+          component: dynamicWrapper(app, ['opm/ogpPatrolTask', 'dictionary'], () => import('../routes/opm/OgpPatrolTaskList')),
+          authority: [ 'clouduser'],
+        },
+        '/opm/ogpPatrolTask-profile/:pid': {
+          component: dynamicWrapper(app, ['opm/ogpPatrolTask'], () => import('../routes/opm/OgpPatrolTaskProfile')),
+          authority: ['clouduser'],
+        },
+        '/opm/ogpPatrolTask-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['opm/ogpPatrolTask'], () => import('../routes/opm/OgpPatrolTaskEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+
+        // demo1 巡查计划
+        '/opm/ogpPatrolPlan-list': {
+          component: dynamicWrapper(app, ['opm/ogpPatrolPlan', 'dictionary'], () => import('../routes/opm/OgpPatrolPlanList')),
+          authority: [ 'clouduser'],
+        },
+        '/opm/ogpPatrolPlan-profile/:pid': {
+          component: dynamicWrapper(app, ['opm/ogpPatrolPlan'], () => import('../routes/opm/OgpPatrolPlanProfile')),
+          authority: ['clouduser'],
+        },
+        '/opm/ogpPatrolPlan-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['opm/ogpPatrolPlan'], () => import('../routes/opm/OgpPatrolPlanEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+    
 
         
         // 安全管理部门人员待办事项界面

@@ -258,6 +258,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
       {
         title: '管道ID',
         dataIndex: 'pipelineId',
+        fixed: 'left',
       },
       {
         title: '数据录入方式',
@@ -309,6 +310,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
       },
       {
         title: '操作',
+        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a onClick={e => this.handleEdit(e, record.pipelineId)}>审核</a>
@@ -349,6 +351,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
                 rowKey="pipelineId"
+                scroll={{ x: 1400 }}
               />
             </div>
           </Card>

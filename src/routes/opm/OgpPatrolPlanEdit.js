@@ -107,6 +107,7 @@ export default class BasicForms extends PureComponent {
       this.forceUpdate()
   }
 
+  // bug：数组问题，可能需要重新设计。
   handledelete = index => {
     this.state.myRows.splice(index, 1)
     this.forceUpdate()

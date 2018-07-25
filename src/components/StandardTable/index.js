@@ -72,7 +72,8 @@ class StandardTable extends PureComponent {
       loading,
       columns,
       rowKey,
-      scroll // ... Lee Add By 2018/7/24
+      scroll,            // ... Lee Add By 2018/7/24
+      expandedRowRender, // ... Lee Add By 2018/7/25
     } = this.props;
 
     const paginationProps = {
@@ -123,6 +124,7 @@ class StandardTable extends PureComponent {
           pagination={paginationProps}
           onChange={this.handleTableChange}
           scroll={scroll}
+          expandedRowRender={expandedRowRender}
         />
       </div>
     );

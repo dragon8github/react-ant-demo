@@ -120,6 +120,49 @@ export const getRouterData = app => {
             component: dynamicWrapper(app, ['opm/ogpPatrolPlan'], () => import('../routes/opm/OgpPatrolPlanEdit')),
             authority: ['admin', 'clouduser'],
         },
+
+        // demo4 管道数据
+        '/risk/ogpPipeInfo-list': {
+          component: dynamicWrapper(app, ['risk/ogpPipeInfo', 'dictionary'], () => import('../routes/risk/OgpPipeInfoList')),
+          authority: [ 'clouduser'],
+        },
+        '/risk/ogpPipeInfo-profile/:pid': {
+          component: dynamicWrapper(app, ['risk/ogpPipeInfo'], () => import('../routes/risk/OgpPipeInfoProfile')),
+          authority: ['clouduser'],
+        },
+        '/risk/ogpPipeInfo-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['risk/ogpPipeInfo'], () => import('../routes/risk/OgpPipeInfoEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+    
+
+        // demo4 风险库展示
+        '/risk/ogpRiskInfo-list': {
+          component: dynamicWrapper(app, ['risk/ogpRiskInfo', 'dictionary'], () => import('../routes/risk/OgpRiskInfoList')),
+          authority: [ 'clouduser'],
+        },
+        '/risk/ogpRiskInfo-profile/:pid': {
+          component: dynamicWrapper(app, ['risk/ogpRiskInfo'], () => import('../routes/risk/OgpRiskInfoProfile')),
+          authority: ['clouduser'],
+        },
+        '/risk/ogpRiskInfo-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['risk/ogpRiskInfo'], () => import('../routes/risk/OgpRiskInfoEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+
+        // demo 5 风险评估报告管理
+        '/risk/ogpRiskReport-list': {
+          component: dynamicWrapper(app, ['risk/ogpRiskReport', 'dictionary'], () => import('../routes/risk/OgpRiskReportList')),
+          authority: [ 'clouduser'],
+        },
+        '/risk/ogpRiskReport-profile/:pid': {
+          component: dynamicWrapper(app, ['risk/ogpRiskReport'], () => import('../routes/risk/OgpRiskReportProfile')),
+          authority: ['clouduser'],
+        },
+        '/risk/ogpRiskReport-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['risk/ogpRiskReport'], () => import('../routes/risk/OgpRiskReportEdit')),
+            authority: ['admin', 'clouduser'],
+        },
     
 
         
@@ -137,9 +180,6 @@ export const getRouterData = app => {
             authority: ['admin', 'clouduser'],
         },
     
-
-    
-
         '/example/main-list': { component: dynamicWrapper(app, ['example', 'dictionary'], () => import('../routes/Example/MainList')), authority: ['admin', 'clouduser'], },
         '/example/main-profile/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainProfile')), authority: ['admin', 'clouduser'], },
         '/example/main-form/:opertype/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainEdit')), authority: ['admin', 'clouduser'], },

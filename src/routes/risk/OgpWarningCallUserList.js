@@ -18,9 +18,9 @@ import {
 import StandardTable from 'components/StandardTable';
 import DictSelect from 'components/DictSelect';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import DescriptionList from 'components/DescriptionList';
+
 import styles from '../List/TableList.less';
-const { Description } = DescriptionList;
+
 const FormItem = Form.Item;
 const getValue = obj =>
   Object.keys(obj)
@@ -28,13 +28,13 @@ const getValue = obj =>
     .join(',');
 
 
-@connect(({ ogpPipeInfo, dictionary, loading }) => ({
-  ogpPipeInfo,
+@connect(({ ogpWarningCallUser, dictionary, loading }) => ({
+  ogpWarningCallUser,
   dictionary,
-  loading: loading.models.ogpPipeInfo,
+  loading: loading.models.ogpWarningCallUser,
 }))
 @Form.create()
-export default class OgpPipeInfoList extends PureComponent {
+export default class OgpWarningCallUserList extends PureComponent {
   state = {
     selectedRows: [],
     formValues: {},
@@ -43,7 +43,7 @@ export default class OgpPipeInfoList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'ogpPipeInfo/fetch',
+      type: 'ogpWarningCallUser/fetch',
     });
     
   }
@@ -69,7 +69,7 @@ export default class OgpPipeInfoList extends PureComponent {
     }
 
     dispatch({
-      type: 'ogpPipeInfo/fetch',
+      type: 'ogpWarningCallUser/fetch',
       payload: params,
     });
   };
@@ -81,7 +81,7 @@ export default class OgpPipeInfoList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'ogpPipeInfo/fetch',
+      type: 'ogpWarningCallUser/fetch',
       payload: {},
     });
   };
@@ -93,9 +93,9 @@ export default class OgpPipeInfoList extends PureComponent {
     if (!selectedRows) return;
     const onOkf = () => {
       dispatch({
-        type: 'ogpPipeInfo/remove',
+        type: 'ogpWarningCallUser/remove',
         payload: {
-          ids: selectedRows.map(row => row.pipeId).join(','),
+          ids: selectedRows.map(row => row.account).join(','),
         },
         callback: () => {
           this.setState({
@@ -142,7 +142,7 @@ export default class OgpPipeInfoList extends PureComponent {
       });
 
       dispatch({
-        type: 'ogpPipeInfo/fetch',
+        type: 'ogpWarningCallUser/fetch',
         payload: values,
       });
     });
@@ -157,17 +157,17 @@ export default class OgpPipeInfoList extends PureComponent {
 
   handleShow = (e, key) => {
 	const { dispatch } = this.props;
-    dispatch(routerRedux.push(`/risk/ogpPipeInfo-profile/${key}`));
+    dispatch(routerRedux.push(`/risk/ogpWarningCallUser-profile/${key}`));
   };
 
   handleAdd = () => {
 	const { dispatch } = this.props;
-	dispatch(routerRedux.push(`/risk/ogpPipeInfo-form/add/0`));
+	dispatch(routerRedux.push(`/risk/ogpWarningCallUser-form/add/0`));
   };
   
   handleEdit = (e, key) => {
 	const { dispatch } = this.props;
-	dispatch(routerRedux.push(`/risk/ogpPipeInfo-form/edit/${key}`));
+	dispatch(routerRedux.push(`/risk/ogpWarningCallUser-form/edit/${key}`));
   };
 
   renderAdvancedForm() {
@@ -175,33 +175,16 @@ export default class OgpPipeInfoList extends PureComponent {
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-      	<Col md={6} sm={24}>
-      	<FormItem label="风险点信息ID">
-      		{getFieldDecorator('eq_riskInfoId')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="管段名称">
-      		{getFieldDecorator('like_pipeName')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="负责人">
-      		{getFieldDecorator('like_manager')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
         <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'left', marginBottom: 24 }}>
+          <span style={{ float: 'right', marginBottom: 24 }}>
             <Button icon="search" type="primary" htmlType="submit">
               查询
             </Button>
-            <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
               重置
             </Button>
           </span>
         </div>
-      </Row>
       </Form>
     );
   }
@@ -211,106 +194,37 @@ export default class OgpPipeInfoList extends PureComponent {
   }
 
   render() {
-    const { ogpPipeInfo: { data, domain }, dictionary, loading } = this.props;
+    const { ogpWarningCallUser: { data, domain }, dictionary, loading } = this.props;
     const { selectedRows } = this.state;
-
-    console.log(20180725162500, data)
 
     const columns = [
       {
-        title: '管段ID',
-        dataIndex: 'pipeId',
-        // fixed: 'left',
+        title: '帐号',
+        dataIndex: 'account',
       },
       {
-        title: '风险点信息ID',
-        dataIndex: 'riskInfoId',
+        title: '姓名',
+        dataIndex: 'name',
       },
       {
-        title: '负责人',
-        dataIndex: 'manager',
+        title: '手机',
+        dataIndex: 'mobile',
       },
       {
-        title: '负责人电话',
-        dataIndex: 'phone',
-      },
-      {
-        title: '管道所属企业',
-        dataIndex: 'pipeCompany',
-      },
-      {
-        title: '管段名称',
-        dataIndex: 'pipeName',
-      },
-      {
-        title: '管道所属部门',
-        dataIndex: 'pipeDep',
-      },
-      {
-        title: '管段起始位置',
-        dataIndex: 'pipeStartPoint',
-      },
-      {
-        title: '管段结束位置',
-        dataIndex: 'pipeEndPoint',
-      },
-      {
-        title: '管段压力值',
-        dataIndex: 'pipePressure',
-      },
-      {
-        title: '管段流量',
-        dataIndex: 'pipeFlow',
-      },
-      {
-        title: '管道服役期限',
-        dataIndex: 'pipeServiceDeadline',
-      },
-      {
-        title: '管道爆管情况',
-        dataIndex: 'pipeBurstCase',
-      },
-      {
-        title: '涉及情况',
-        dataIndex: 'digCase',
-      },
-      {
-        title: '管道维修次数',
-        dataIndex: 'pipeRepairTimes',
-      },
-      {
-        title: '管道失效后果',
-        dataIndex: 'pipeDisableEffect',
-      },
-      {
-        title: '管段失效概率',
-        dataIndex: 'pipeDisableProb',
+        title: '邮件',
+        dataIndex: 'email',
       },
       {
         title: '操作',
-        // fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a onClick={e => this.handleEdit(e, record.pipeId)}>编辑</a>
+            <a onClick={e => this.handleEdit(e, record.account)}>编辑</a>
             <Divider type="vertical" />
-            <a onClick={e => this.handleShow(e, record.pipeId)}>查看</a>
+            <a onClick={e => this.handleShow(e, record.account)}>查看</a>
           </Fragment>
         ),
       },
     ];
-
-    const desc = <Card >
-        <DescriptionList size="large" title="风险信息">
-          <Description term="风险点信息id">1</Description>
-          <Description term="风险状态">预警状态</Description>
-          <Description term="当前风险安全等级">6</Description>
-          <Description term="推测风险安全等级">7</Description>
-          <Description term="风险点编号">1</Description>
-          <Description term="风险点名称">风险点1</Description>
-          <Description term="风险类型名称">蓄意破坏</Description>
-        </DescriptionList>
-        <Divider style={{ marginBottom: 32 }} />
-    </Card>
     
     return (
       <PageHeaderLayout>
@@ -318,12 +232,12 @@ export default class OgpPipeInfoList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button type="dashed" style={{ width: '100%' }} icon="plus"onClick={this.handleAdd}>
-                    新建管道
+              <Button icon="plus" type="primary" onClick={this.handleAdd}>
+                新建
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="danger" style={{ marginTop: 10 }} onClick={this.handleRemove}>
+                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>
@@ -336,9 +250,7 @@ export default class OgpPipeInfoList extends PureComponent {
               columns={columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              rowKey="pipeId"
-              scroll={{ x: 2100 }}
-              expandedRowRender={record => <div style={{ maxWidth: 1000 }}>{desc}</div>}
+              rowKey="account"
             />
           </div>
         </Card>

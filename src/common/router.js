@@ -164,9 +164,50 @@ export const getRouterData = app => {
             authority: ['admin', 'clouduser'],
         },
     
-
+        // demo6 智能预警配置
+        // 预警通知人员 
+        '/risk/ogpWarningCallUser-list': {
+          component: dynamicWrapper(app, ['risk/ogpWarningCallUser', 'dictionary'], () => import('../routes/risk/OgpWarningCallUserList')),
+          authority: [ 'clouduser'],
+        },
+        '/risk/ogpWarningCallUser-profile/:pid': {
+          component: dynamicWrapper(app, ['risk/ogpWarningCallUser'], () => import('../routes/risk/OgpWarningCallUserProfile')),
+          authority: ['clouduser'],
+        },
+        '/risk/ogpWarningCallUser-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['risk/ogpWarningCallUser'], () => import('../routes/risk/OgpWarningCallUserEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+    
+        // 预警机制
+        '/risk/ogpWarningCall-list': {
+          component: dynamicWrapper(app, ['risk/ogpWarningCall', 'dictionary'], () => import('../routes/risk/OgpWarningCallList')),
+          authority: [ 'clouduser'],
+        },
+        '/risk/ogpWarningCall-profile/:pid': {
+          component: dynamicWrapper(app, ['risk/ogpWarningCall'], () => import('../routes/risk/OgpWarningCallProfile')),
+          authority: ['clouduser'],
+        },
+        '/risk/ogpWarningCall-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['risk/ogpWarningCall'], () => import('../routes/risk/OgpWarningCallEdit')),
+            authority: ['admin', 'clouduser'],
+        },
+    
+        // 预警规则
+        '/risk/ogpWarningRule-list': {
+          component: dynamicWrapper(app, ['risk/ogpWarningRule', 'dictionary'], () => import('../routes/risk/OgpWarningRuleList')),
+          authority: [ 'clouduser'],
+        },
+        '/risk/ogpWarningRule-profile/:pid': {
+          component: dynamicWrapper(app, ['risk/ogpWarningRule'], () => import('../routes/risk/OgpWarningRuleProfile')),
+          authority: ['clouduser'],
+        },
+        '/risk/ogpWarningRule-form/:opertype/:pid': {
+            component: dynamicWrapper(app, ['risk/ogpWarningRule'], () => import('../routes/risk/OgpWarningRuleEdit')),
+            authority: ['admin', 'clouduser'],
+        },
         
-        // 安全管理部门人员待办事项界面
+        // demo9: 安全管理部门人员待办事项界面
         '/applyWorkList/ogpApplyWorkList-list': {
           component: dynamicWrapper(app, ['applyWorkList/ogpApplyWorkList', 'dictionary'], () => import('../routes/applyWorkList/OgpApplyWorkListList')),
           authority: [ 'clouduser'],
@@ -179,6 +220,7 @@ export const getRouterData = app => {
             component: dynamicWrapper(app, ['applyWorkList/ogpApplyWorkList'], () => import('../routes/applyWorkList/OgpApplyWorkListEdit')),
             authority: ['admin', 'clouduser'],
         },
+
     
         '/example/main-list': { component: dynamicWrapper(app, ['example', 'dictionary'], () => import('../routes/Example/MainList')), authority: ['admin', 'clouduser'], },
         '/example/main-profile/:pid': { component: dynamicWrapper(app, ['example'], () => import('../routes/Example/MainProfile')), authority: ['admin', 'clouduser'], },

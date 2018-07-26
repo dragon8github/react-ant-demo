@@ -177,22 +177,22 @@ export default class OgpRiskReportList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
       	<Col md={6} sm={24}>
-      	<FormItem label="管段ID=">
+      	<FormItem label="管段ID">
       		{getFieldDecorator('eq_pipeId')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
       	<Col md={6} sm={24}>
-      	<FormItem label="风险类型名称=">
+      	<FormItem label="风险类型名称">
       		{getFieldDecorator('eq_riskTypeName')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
       	<Col md={6} sm={24}>
-      	<FormItem label="风险值=">
+      	<FormItem label="风险值">
       		{getFieldDecorator('eq_riskValue')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
       	<Col md={6} sm={24}>
-      	<FormItem label="风险等级=">
+      	<FormItem label="风险等级">
       		{getFieldDecorator('eq_riskRank')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
@@ -202,7 +202,7 @@ export default class OgpRiskReportList extends PureComponent {
             <Button icon="search" type="primary" htmlType="submit">
               查询
             </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+            <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
               重置
             </Button>
           </span>
@@ -223,6 +223,11 @@ export default class OgpRiskReportList extends PureComponent {
       {
         title: '管段ID',
         dataIndex: 'pipeId',
+        fixed: 'left',
+      },
+      {
+        title: '报告ID',
+        dataIndex: 'reportId',
       },
       {
         title: '风险类型名称',
@@ -265,11 +270,8 @@ export default class OgpRiskReportList extends PureComponent {
         dataIndex: 'disableEffect',
       },
       {
-        title: '报告ID',
-        dataIndex: 'reportId',
-      },
-      {
         title: '操作',
+        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a onClick={e => this.handleEdit(e, record.reportId)}>编辑</a>
@@ -286,12 +288,12 @@ export default class OgpRiskReportList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={this.handleAdd}>
-                新建
+              <Button type="dashed" style={{ width: '100%' }} icon="plus"onClick={this.handleAdd}>
+                    新建报告
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
+                  <Button icon="minus" type="danger" style={{ marginTop: 10 }} onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>
@@ -305,6 +307,7 @@ export default class OgpRiskReportList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               rowKey="reportId"
+              scroll={{ x: 1800 }}
             />
           </div>
         </Card>

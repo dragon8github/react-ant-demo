@@ -64,3 +64,67 @@ export async function removeOgpPipeInfo(params) {
     body: params,
   });
 }
+
+export async function searchOgpWarningCallUser(params) {
+  return request(`/api/ogp/risk/ogpWarningCallUser/search?${stringify(params)}`);
+}
+export async function getOgpWarningCallUser(params) {
+  return request(`/api/ogp/risk/ogpWarningCallUser/` + params);
+}
+export async function saveOgpWarningCallUser(params) {
+  return request(`/api/ogp/risk/ogpWarningCallUser`, {
+    method: 'POST',
+    'Content-Type': 'application/x-www-form-urlencoded;',
+    body: params,
+  });
+}
+export async function removeOgpWarningCallUser(params) {
+  return request(`/api/ogp/risk/ogpWarningCallUser/remove`, {
+    method: 'POST',
+    'Content-Type': 'application/x-www-form-urlencoded;',
+    body: params,
+  });
+}
+
+
+export async function searchOgpWarningCall(params) {
+  return request(`/api/ogp/risk/ogpWarningCall/search?${stringify(params)}`);
+}
+export async function getOgpWarningCall(params) {
+  return request(`/api/ogp/risk/ogpWarningCall/` + params);
+}
+export async function saveOgpWarningCall(params) {
+  return request(`/api/ogp/risk/ogpWarningCall`, {
+    method: 'POST',
+    'Content-Type': 'application/x-www-form-urlencoded;',
+    body: params,
+  });
+}
+export async function removeOgpWarningCall(params) {
+  return request(`/api/ogp/risk/ogpWarningCall/remove`, {
+    method: 'POST',
+    'Content-Type': 'application/x-www-form-urlencoded;',
+    body: params,
+  });
+}
+
+export async function searchOgpWarningRule(params) {
+  return request(`/api/ogp/risk/ogpWarningRule/search?${stringify(params)}`);
+}
+export async function getOgpWarningRule(params) {
+  return request(`/api/ogp/risk/ogpWarningRule/` + params);
+}
+export async function saveOgpWarningRule(params) {
+  return request(`/api/ogp/risk/ogpWarningRule`, {
+    method: 'POST',
+    'Content-Type': 'application/x-www-form-urlencoded;',
+    body: params,
+  });
+}
+export async function removeOgpWarningRule(params) {
+  return request(`/api/ogp/risk/ogpWarningRule/remove`, {
+    method: 'POST',
+    'Content-Type': 'application/x-www-form-urlencoded;',
+    body: params,
+  });
+}

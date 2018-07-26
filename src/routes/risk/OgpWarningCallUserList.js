@@ -175,16 +175,33 @@ export default class OgpWarningCallUserList extends PureComponent {
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+      	<Col md={6} sm={24}>
+      	<FormItem label="姓名">
+      		{getFieldDecorator('like_name')(<Input placeholder="请输入" />)}
+      	</FormItem>
+      	</Col>
+      	<Col md={6} sm={24}>
+      	<FormItem label="手机">
+      		{getFieldDecorator('like_mobile')(<Input placeholder="请输入" />)}
+      	</FormItem>
+      	</Col>
+      	<Col md={6} sm={24}>
+      	<FormItem label="邮件">
+      		{getFieldDecorator('like_email')(<Input placeholder="请输入" />)}
+      	</FormItem>
+      	</Col>
         <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
+          <span style={{ float: 'left', marginBottom: 24 }}>
             <Button icon="search" type="primary" htmlType="submit">
               查询
             </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+            <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
               重置
             </Button>
           </span>
         </div>
+      </Row>
       </Form>
     );
   }
@@ -232,12 +249,12 @@ export default class OgpWarningCallUserList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={this.handleAdd}>
-                新建
+              <Button type="dashed" style={{ width: '100%' }} icon="plus"onClick={this.handleAdd}>
+                    新建
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
+                  <Button icon="minus" type="danger" style={{ marginTop: 10 }} onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>

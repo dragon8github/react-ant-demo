@@ -48,6 +48,8 @@ export default class BasicForms extends PureComponent {
   componentDidMount () {
     // 默认添加一行示例
     this.handleAdd()
+
+    // TODO： 其实应该把planChildren和peopleChildren放这里初始化比较优雅
   }
 
   handleSubmit = e => {

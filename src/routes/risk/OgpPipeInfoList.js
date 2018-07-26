@@ -337,7 +337,7 @@ export default class OgpPipeInfoList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               rowKey="pipeId"
-              scroll={{ x: 2100 }}
+              scroll={{ x: 2200 }}
               expandedRowRender={record => <div style={{ maxWidth: 1000 }}>{desc}</div>}
             />
           </div>

@@ -42,11 +42,11 @@ export default class OgpWarningRuleProfile extends Component {
           <DescriptionList size="large" title="基础信息" style={{ marginBottom: 32 }}>
           	<Description term="预警规则ID">{domain.warningId}</Description>
           	<Description term="预警规则名称">{domain.warningName}</Description>
-          	<Description term="指标">{domain.target}</Description>
-          	<Description term="比较方法">{domain.compare}</Description>
+          	<Description term="指标">{domain.targetName}</Description>
+          	<Description term="比较方法">{domain.compareName}</Description>
           	<Description term="阀值">{domain.threshold}</Description>
-          	<Description term="预警等级">{domain.warningLevel}</Description>
-          	<Description term="是否启用">{domain.enabled}</Description>
+          	<Description term="预警等级">{domain.warningLevelName}</Description>
+          	<Description term="是否启用">{domain.enabledName}</Description>
           	<Description term="角色ID列表">{domain.roles}</Description>
           	<Description term="预警机制ID">{domain.warningCallId}</Description>
           	<Description term="创建时间">{domain.createTime}</Description>

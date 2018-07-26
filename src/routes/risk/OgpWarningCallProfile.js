@@ -42,7 +42,7 @@ export default class OgpWarningCallProfile extends Component {
           <DescriptionList size="large" title="基础信息" style={{ marginBottom: 32 }}>
           	<Description term="预警机制ID">{domain.warningCallId}</Description>
           	<Description term="预警机制名称">{domain.warningCallName}</Description>
-          	<Description term="预警通知方式">{domain.callWay}</Description>
+          	<Description term="预警通知方式">{domain.callWayName}</Description>
           	<Description term="预警通知人帐号">{domain.callAccount}</Description>
           	<Description term="预警通知人姓名">{domain.callName}</Description>
           	<Description term="创建时间">{domain.createTime}</Description>

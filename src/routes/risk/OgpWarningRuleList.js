@@ -46,6 +46,22 @@ export default class OgpWarningRuleList extends PureComponent {
       type: 'ogpWarningRule/fetch',
     });
     
+    dispatch({
+    	type: 'dictionary/loadDict',
+    	codetype: 'WARNING_TARGET',
+    });
+    dispatch({
+    	type: 'dictionary/loadDict',
+    	codetype: 'WARNING_COMPARE',
+    });
+    dispatch({
+    	type: 'dictionary/loadDict',
+    	codetype: 'WARNING_LEVEL',
+    });
+    dispatch({
+    	type: 'dictionary/loadDict',
+    	codetype: 'WARNING_ENABLED',
+    });
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -175,16 +191,70 @@ export default class OgpWarningRuleList extends PureComponent {
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button icon="search" type="primary" htmlType="submit">
-              查询
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              重置
-            </Button>
-          </span>
-        </div>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+      	<Col md={8} sm={24}>
+      	<FormItem label="预警规则名称">
+      		{getFieldDecorator('like_warningName')(<Input placeholder="请输入预警规则名称" />)}
+      	</FormItem>
+      	</Col>
+      	<Col md={8} sm={24}>
+      	<FormItem label="指&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标">
+      		{getFieldDecorator('eq_target')(
+                <DictSelect
+                  placeholder="请选择指标"
+                  style={{ width: '100%' }}
+                  dictList={dictionary['WARNING_TARGET']}
+                />
+              )}
+      	</FormItem>
+      	</Col>
+      	<Col md={8} sm={24}>
+      	<FormItem label="比较方法">
+      		{getFieldDecorator('eq_compare')(
+                <DictSelect
+                  placeholder="请选择比较方法"
+                  style={{ width: '100%' }}
+                  dictList={dictionary['WARNING_COMPARE']}
+                />
+              )}
+      	</FormItem>
+      	</Col>
+      	
+      </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+      <Col md={8} sm={24}>
+      	<FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预警等级">
+      		{getFieldDecorator('eq_warningLevel')(
+                <DictSelect
+                  placeholder="请选择预警等级"
+                  style={{ width: '100%' }}
+                  dictList={dictionary['WARNING_LEVEL']}
+                />
+              )}
+      	</FormItem>
+      	</Col>
+      	<Col md={8} sm={24}>
+          <FormItem label="是否启用">
+            {getFieldDecorator('eq_enabled')(
+                  <DictSelect
+                    placeholder="请选择是否启用"
+                    style={{ width: '100%' }}
+                    dictList={dictionary['WARNING_ENABLED']}
+                  />
+                )}
+          </FormItem>
+      	</Col>
+        <Col md={8} sm={24}>
+            <div style={{ overflow: 'hidden' }}>
+                <Button icon="search" type="primary" htmlType="submit">
+                  查询
+                </Button>
+                <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                  重置
+                </Button>
+            </div>
+      	</Col>
+      </Row>
       </Form>
     );
   }
@@ -201,6 +271,7 @@ export default class OgpWarningRuleList extends PureComponent {
       {
         title: '预警规则ID',
         dataIndex: 'warningId',
+        fixed: 'left',
       },
       {
         title: '预警规则名称',
@@ -208,11 +279,11 @@ export default class OgpWarningRuleList extends PureComponent {
       },
       {
         title: '指标',
-        dataIndex: 'target',
+        dataIndex: 'targetName',
       },
       {
         title: '比较方法',
-        dataIndex: 'compare',
+        dataIndex: 'compareName',
       },
       {
         title: '阀值',
@@ -220,11 +291,11 @@ export default class OgpWarningRuleList extends PureComponent {
       },
       {
         title: '预警等级',
-        dataIndex: 'warningLevel',
+        dataIndex: 'warningLevelName',
       },
       {
         title: '是否启用',
-        dataIndex: 'enabled',
+        dataIndex: 'enabledName',
       },
       {
         title: '角色ID列表',
@@ -248,6 +319,7 @@ export default class OgpWarningRuleList extends PureComponent {
       },
       {
         title: '操作',
+        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a onClick={e => this.handleEdit(e, record.warningId)}>编辑</a>
@@ -264,12 +336,12 @@ export default class OgpWarningRuleList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={this.handleAdd}>
-                新建
+              <Button type="dashed" style={{ width: '100%' }} icon="plus"onClick={this.handleAdd}>
+                    新建
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
+                  <Button icon="minus" type="danger" style={{ marginTop: 10 }} onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>
@@ -283,6 +355,7 @@ export default class OgpWarningRuleList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               rowKey="warningId"
+              scroll={{ x: 1300 }}
             />
           </div>
         </Card>

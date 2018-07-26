@@ -30,6 +30,10 @@ export default class OgpWarningCallEdit extends PureComponent {
       });
     }
 
+    dispatch({
+    	type: 'dictionary/loadDict',
+    	codetype: 'WARNING_WAY',
+    });
   }
   
   handleSave = (fields, isNew, editingKey) => {
@@ -163,10 +167,16 @@ export default class OgpWarningCallEdit extends PureComponent {
       		</Col>
       		<Col md={12} sm={24}>
       	    <FormItem {...formItemLayout} label="预警通知方式">
-      	    	{form.getFieldDecorator('callWay', {
-      		        rules: [{ required: true, message: '请输入预警通知方式' }],
-      		        initialValue: callWay,
-      		      })(<Input placeholder="请输入" />)}
+      	      {form.getFieldDecorator('callWay', {
+      	          rules: [{ required: true, message: '请输入预警通知方式' }],
+      	          initialValue: callWay,
+      	        })(
+      	          <DictSelect
+      	            placeholder="请选择"
+      	            style={{ width: '100%' }}
+      	            dictList={dictionary['WARNING_WAY']}
+      	          />
+      	        )}
       	    </FormItem>
       		</Col>
           </Row>

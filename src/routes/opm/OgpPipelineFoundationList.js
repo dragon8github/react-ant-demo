@@ -442,7 +442,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
                 rowKey="pipelineId"
-                scroll={{ x: 1500 }}
+                scroll={{ x: 1600 }}
               />
             </div>
           </Card>

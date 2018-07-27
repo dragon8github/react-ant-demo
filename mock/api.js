@@ -1,6 +1,11 @@
 import { parse } from 'url';
 
 const titles = [
+  '本原',
+  '金墨',
+  '凡狼',
+  '全能',
+  '匠派',
   'Alipay',
   'Angular',
   'Ant Design',
@@ -11,6 +16,11 @@ const titles = [
   'Webpack',
 ];
 const avatars = [
+  '//avatar.zbjimg.com/013/26/23/200x200_avatar_93.jpg!big',
+  '//avatar.zbjimg.com/014/15/12/200x200_avatar_38.jpg!big',
+  '//avatar.zbjimg.com/016/51/54/200x200_avatar_22.jpg!big',
+  '//avatar.zbjimg.com/018/83/53/200x200_avatar_17.jpg!big',
+  '//avatar.zbjimg.com/011/65/62/200x200_avatar_26.jpg!big',
   'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png', // Alipay
   'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png', // Angular
   'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png', // Ant Design

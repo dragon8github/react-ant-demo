@@ -71,30 +71,31 @@ export default class OgpWarningRuleEdit extends PureComponent {
   }
   
   handleSave = (fields, isNew, editingKey) => {
-	const { dispatch } = this.props;
-	let datefields = {};
-	if(fields.createTime != undefined){
-    	datefields.createTime = fields.createtime.format('YYYY-MM-DD HH:mm:ss');
-	} else{
-		datefields.createTime = '';
-	}
-	dispatch({
-        type: 'ogpWarningRule/save',
-        payload: {
-          ...fields,
-          isNew,
-          warningId: editingKey,
-          ...datefields,
-        },
-        callback: response => {
-          if (response.code === 200) {
-            message.success('保存成功');
-            dispatch(routerRedux.push('/risk/ogpWarningRule-list'));
-          } else {
-            message.success('保存失败：[' + response.code + ']' + response.message);
-          }
-        },
-    });
+			const { dispatch } = this.props;
+			let datefields = {};
+			if(fields.createTime != undefined){
+					datefields.createTime = '' // fields.createtime.format('YYYY-MM-DD HH:mm:ss');
+			} else{
+					datefields.createTime = '';
+			}
+			debugger;
+			dispatch({
+						type: 'ogpWarningRule/save',
+						payload: {
+							...fields,
+							isNew,
+							warningId: editingKey,
+							...datefields,
+						},
+						callback: response => {
+							if (response.code === 200) {
+								message.success('保存成功');
+								dispatch(routerRedux.push('/risk/ogpWarningRule-list'));
+							} else {
+								message.success('保存失败：[' + response.code + ']' + response.message);
+							}
+						},
+				});
   }
 
   handleSubmit = e => {

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import {
   Form,
@@ -12,11 +12,11 @@ import {
   Icon,
   Tooltip,
   Row, Col,
-  Divider
+  Divider,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from '../Forms/style.less';
-
+const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -115,6 +115,10 @@ export default class BasicForms extends PureComponent {
     this.forceUpdate()
   }
 
+  goback = () => {
+    history.back();
+  };
+
   render() {
     const { submitting, form } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
@@ -138,8 +142,20 @@ export default class BasicForms extends PureComponent {
       },
     };
 
+   
+    
+    const action = (
+      <Fragment>
+        <ButtonGroup>
+          <Button icon="rollback" onClick={this.goback}>
+            返回
+          </Button>
+        </ButtonGroup>
+      </Fragment>
+    );
+
     return (
-      <PageHeaderLayout title="巡查计划">
+      <PageHeaderLayout title="巡查计划" action={action}>
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="计划">
@@ -186,7 +202,7 @@ export default class BasicForms extends PureComponent {
               
               { this.state.myRows }
 
-              <Button type="dashed" style={{ width: '96%', marginTop: 10 }} icon="plus"onClick={this.handleAdd}>
+              <Button type="dashed" style={{ width: '96%', marginTop: 32 }} icon="plus" onClick={this.handleAdd}>
                     新增一行
               </Button>
             </div>

@@ -226,9 +226,9 @@ export default class OgpPipeInfoEdit extends PureComponent {
       	    </FormItem>
       		</Col>
       		<Col md={12} sm={24}>
-      	    <FormItem {...formItemLayout} label="是否涉及施工挖掘，涉及情况，交越点管理子系统数据">
+      	    <FormItem {...formItemLayout} label="是否涉及施工">
       	    	{form.getFieldDecorator('digCase', {
-      		        rules: [{ required: true, message: '请输入是否涉及施工挖掘，涉及情况，交越点管理子系统数据' }],
+      		        rules: [{ required: true, message: '请输入是否涉及施工' }],
       		        initialValue: digCase,
       		      })(<Input placeholder="请输入" />)}
       	    </FormItem>

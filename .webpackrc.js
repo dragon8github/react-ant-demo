@@ -29,7 +29,10 @@ export default {
   hash: true,
   proxy: {
     '/api/admin': {
-      target: 'http://192.168.8.107:8080/',
+      target: 'http://192.168.8.108:8080/', // 嘉海
+      // target: 'http://192.168.8.165:8080/', // 绵凯
+      // target: 'http://192.168.8.192:8080',     // 俊东
+      // target: 'http://192.168.8.128:8080',  // 耀全
       changeOrigin: true,
       // "pathRewrite": { "^/lmapi" : "/api" }
     },
@@ -42,8 +45,17 @@ export default {
       changeOrigin: true,
     },
     '/api/ogp/opm': {
-      target: 'http://192.168.8.107:8080',
+      target: 'http://192.168.8.108:8080', // 嘉海
       changeOrigin: true,
     },
+    '/api/ogp/applyWorkList': {
+      target: 'http://192.168.8.165:8080',// 绵凯
+      changeOrigin: true,
+    },
+    '/api/ogp/risk': {
+      // target: 'http://192.168.8.192:8080', // 俊东
+      target: 'http://192.168.8.128:8080', // 耀全
+      changeOrigin: true,
+    }
   },
 };

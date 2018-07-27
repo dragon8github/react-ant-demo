@@ -228,9 +228,9 @@ export default class OgpApplyWorkListEdit extends PureComponent {
           </Row>
           <Row>
       		<Col md={12} sm={24}>
-      	    <FormItem {...formItemLayout} label="工单状态(apply.work.state)">
+      	    <FormItem {...formItemLayout} label="工单状态">
       	      {form.getFieldDecorator('state', {
-      	          rules: [{ required: true, message: '请输入工单状态(apply.work.state)' }],
+      	          rules: [{ required: true, message: '请输入工单状态' }],
       	          initialValue: state,
       	        })(
       	          <DictSelect
@@ -242,9 +242,9 @@ export default class OgpApplyWorkListEdit extends PureComponent {
       	    </FormItem>
       		</Col>
       		<Col md={12} sm={24}>
-      	    <FormItem {...formItemLayout} label="核查结果(check.state)">
+      	    <FormItem {...formItemLayout} label="核查结果">
       	      {form.getFieldDecorator('operResult', {
-      	          rules: [{ required: true, message: '请输入核查结果(check.state)' }],
+      	          rules: [{ required: true, message: '请输入核查结果' }],
       	          initialValue: operResult,
       	        })(
       	          <DictSelect

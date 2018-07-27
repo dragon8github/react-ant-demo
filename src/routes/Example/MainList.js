@@ -544,7 +544,7 @@ export default class MainList extends PureComponent {
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
+                  <Button icon="minus" type="dashed" style={{ marginBottom: 10 }} onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>

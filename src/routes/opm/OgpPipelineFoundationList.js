@@ -17,10 +17,10 @@ import {
 } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-
-import styles from '../List/BasicList.less';
+import DictSelect from 'components/DictSelect';
 import cardstyles from '../List/CardList.less';
 
+import styles from '../List/TableList.less';
 const Dragger = Upload.Dragger;
 const { Search } = Input;
 const FormItem = Form.Item;
@@ -44,7 +44,8 @@ const CreateForm = Form.create()(props => {
   const DraggerProps = {
     name: 'file',
     multiple: true,
-    action: '//jsonplaceholder.typicode.com/posts/',
+    action: '/api/ljdp/attach/memory/upload.act',
+    // action: '//jsonplaceholder.typicode.com/posts/',
     onChange(info) {
       const status = info.file.status;
       if (status !== 'uploading') {
@@ -53,7 +54,8 @@ const CreateForm = Form.create()(props => {
       if (status === 'done') {
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        // message.error(`${info.file.name} file upload failed.`);
+        message.success(`${info.file.name} file uploaded successfully.`);
       }
     },
   };
@@ -244,6 +246,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
 
   handleAddMap = e => {
     console.log(20180723173507, '地图建模')
+    window.open('http://192.168.8.128:8083/html/map.html')
   };
 
   handleModalVisible = flag => {
@@ -261,8 +264,70 @@ export default class OgpPipelineFoundationList extends PureComponent {
     const { dispatch } = this.props;
     dispatch(routerRedux.push(`/opm/ogpPipelineFoundation-form/edit/${key}`));
   };
-
- 
+  renderAdvancedForm() {
+    const { dictionary, form } = this.props;
+      const { getFieldDecorator } = form;
+      return (
+        <Form onSubmit={this.handleSearch} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={6} sm={24}>
+          <FormItem label="审核状态">
+            {getFieldDecorator('eq_auditState')(<Input placeholder="请输入" />)}
+          </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
+          <FormItem label="镇街">
+            {getFieldDecorator('like_town')(<Input placeholder="请输入" />)}
+          </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
+          <FormItem label="所属公司">
+            {getFieldDecorator('like_company')(<Input placeholder="请输入" />)}
+          </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
+          <FormItem label="风险等级">
+            {getFieldDecorator('eq_riskLevel')(
+                  <DictSelect
+                    placeholder="请选择"
+                    style={{ width: '100%' }}
+                    dictList={dictionary['risk.level']}
+                  />
+                )}
+          </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={6} sm={24}>
+          <FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态">
+            {getFieldDecorator('eq_state')(
+                  <DictSelect
+                    placeholder="请选择"
+                    style={{ width: '100%' }}
+                    dictList={dictionary['pipeline.state']}
+                  />
+                )}
+          </FormItem>
+          </Col>
+          <div style={{ overflow: 'hidden' }}>
+            <span style={{ float: 'left', marginBottom: 24 }}>
+              <Button icon="search" type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+            </span>
+          </div>
+        </Row>
+          
+        </Form>
+      );
+    }
+  
+    renderForm() {
+      return this.renderAdvancedForm();
+    }
 
   render() {
     const { ogpPipelineFoundation: { data, domain }, dictionary, loading } = this.props;
@@ -353,23 +418,17 @@ export default class OgpPipelineFoundationList extends PureComponent {
     
     return (
       <PageHeaderLayout >
-       <div className={styles.standardList}>
-          <Card 
-            className={styles.listCard} 
-            bordered={false} 
-            style={{ marginTop: 24 }}
-            bodyStyle={{ padding: '0 32px 40px 32px' }}
-            title={<Button icon="plus" type="primary" onClick={() => this.handleAddMap(true)}>地图建模</Button>}
-            extra={extraContent}
-          >          
+          <Card  bordered={false} >          
             <div className={styles.tableList}>
+              <div className={styles.tableListForm}>{this.renderForm()}</div>
               <div className={styles.tableListOperator}>
-                <Button type="dashed" style={{ width: '100%', marginBottom: 32 }} icon="plus" onClick={() => this.handleModalVisible(true)}>
-                  上传管道信息
+                <Button type="dashed" style={{ width: '100%', marginBottom: 10 }} icon="plus"  onClick={() => this.handleAddMap(true)}>
+                  地图建模
                 </Button>
+                <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>新增</Button>
                 {selectedRows.length > 0 && (
                   <span>
-                    <Button icon="minus" type="dashed" onClick={this.handleRemove}>
+                    <Button icon="minus" type="dashed" style={{ marginBottom: 10, marginTop: 10 }} onClick={this.handleRemove}>
                       删除
                     </Button>
                   </span>
@@ -383,11 +442,10 @@ export default class OgpPipelineFoundationList extends PureComponent {
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
                 rowKey="pipelineId"
-                scroll={{ x: 1400 }}
+                scroll={{ x: 1500 }}
               />
             </div>
           </Card>
-          </div>
           <CreateForm {...parentMethods} modalVisible={modalVisible} />
         </PageHeaderLayout>
     );

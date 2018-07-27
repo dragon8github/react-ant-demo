@@ -318,12 +318,12 @@ export default class OgpPipeInfoList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button type="dashed" style={{ width: '100%' }} icon="plus"onClick={this.handleAdd}>
+              <Button type="dashed" style={{ width: '100%', marginBottom: 10 }} icon="plus" onClick={this.handleAdd}>
                     新建管道
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="danger" style={{ marginTop: 10 }} onClick={this.handleRemove}>
+                  <Button icon="minus" type="danger" style={{ marginBottom: 10, marginTop: 10 }} onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>

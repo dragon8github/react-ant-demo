@@ -32,19 +32,28 @@ const getValue = obj =>
 
     
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleSave, doSearch, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       form.resetFields();
-      handleAdd(fieldsValue);
+      fieldsValue.coordinateLatitude =  113
+      fieldsValue.coordinateLongitude =  23
+      fieldsValue.state = 1
+      fieldsValue.isNew = true
+      fieldsValue.company = '东莞某公司'
+      fieldsValue.riskLevel = 2
+      fieldsValue.area = '南城'
+      fieldsValue.dataRecordWay = '人工录入'
+      fieldsValue.auditState = 0
+      handleSave(fieldsValue, true, 0);
     });
   };
 
   const DraggerProps = {
     name: 'file',
     multiple: true,
-    action: '/api/ljdp/attach/memory/upload.act',
+    action: '/api/ljdp/attach/memory/upload.act?busiPath=',
     // action: '//jsonplaceholder.typicode.com/posts/',
     onChange(info) {
       const status = info.file.status;
@@ -71,27 +80,27 @@ const CreateForm = Form.create()(props => {
       cancelText="取消"
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="经纬度">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('coordinateLongitude', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入经纬度..." />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="镇街">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('town', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入镇街..." />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="管道长度">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('pipelineLength', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入管道长度..." />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="开始位置">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('startLocation', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入开始位置..." />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 19 }} label="结束位置">
-        {form.getFieldDecorator('desc', {
+        {form.getFieldDecorator('endLocation', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入结束位置..." />)}
       </FormItem>
@@ -137,6 +146,29 @@ export default class OgpPipelineFoundationList extends PureComponent {
     });
   }
 
+
+  handleSave = (fields, isNew, editingKey) => {
+    const { dispatch } = this.props;
+    let datefields = {};
+    dispatch({
+          type: 'ogpPipelineFoundation/save',
+          payload: {
+            ...fields,
+            isNew,
+            pipelineId: editingKey,
+            ...datefields,
+          },
+          callback: response => {
+            if (response.code === 200) {
+              message.success('保存成功');
+              this.handleModalVisible(false)
+              this.doSearch();
+            } else {
+              message.success('保存失败：[' + response.code + ']' + response.message);
+            }
+          },
+      });
+}
   
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -241,7 +273,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
 
   handleSearch = content => {
      console.log(20180723173704, e, '搜索')
-    // this.doSearch();
+    this.doSearch();
   };
 
   handleAddMap = e => {
@@ -335,6 +367,8 @@ export default class OgpPipelineFoundationList extends PureComponent {
 
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleSave: this.handleSave,
+      doSearch: this.doSearch,
       handleModalVisible: this.handleModalVisible,
     };
 

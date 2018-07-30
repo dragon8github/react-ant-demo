@@ -355,7 +355,7 @@ export default class OgpWarningRuleList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               rowKey="warningId"
-              scroll={{ x: 1500 }}
+              scroll={{ x: 1600 }}
             />
           </div>
         </Card>

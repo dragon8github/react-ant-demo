@@ -299,6 +299,7 @@ export default class OgpWarningCallList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               rowKey="warningCallId"
+              scroll={{ x: 1300 }}
             />
           </div>
         </Card>

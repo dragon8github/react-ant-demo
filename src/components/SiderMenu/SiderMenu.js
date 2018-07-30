@@ -17,6 +17,10 @@ const getIcon = icon => {
     return <img src={icon} alt="icon" className={`${styles.icon} sider-menu-item-img`} />;
   }
   if (typeof icon === 'string') {
+    // 李钊鸿加入fa icon
+    if (~icon.indexOf('fa-')) {
+      return <i className={`${styles.fa} ${icon}`}></i>
+    }
     return <Icon type={icon} />;
   }
   return icon;
@@ -235,7 +239,7 @@ export default class SiderMenu extends PureComponent {
         <div className={styles.logo} key="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>Ant Design Pro</h1>
+            <h1>Idea Design</h1>
           </Link>
         </div>
         <Menu

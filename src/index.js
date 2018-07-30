@@ -14,6 +14,7 @@ import dynamic from 'dva/dynamic';
 // 加载公共css
 import styles from './index.less';
 import { Spin } from 'antd';
+import 'font-awesome/css/font-awesome.css'
 
 // datepick组件需要用到
 import 'moment/locale/zh-cn';

@@ -147,7 +147,7 @@ export default class OgpPipelineFoundationList extends PureComponent {
   }
 
 
-  handleSave = (fields, isNew, editingKey) => {
+  handleSave = (fields, isNew, editingKey, content = "保存") => {
     const { dispatch } = this.props;
     let datefields = {};
     dispatch({
@@ -160,11 +160,11 @@ export default class OgpPipelineFoundationList extends PureComponent {
           },
           callback: response => {
             if (response.code === 200) {
-              message.success('保存成功');
+              message.success(content+ '成功');
               this.handleModalVisible(false)
               this.doSearch();
             } else {
-              message.success('保存失败：[' + response.code + ']' + response.message);
+              message.success(content+'失败：[' + response.code + ']' + response.message);
             }
           },
       });
@@ -272,7 +272,6 @@ export default class OgpPipelineFoundationList extends PureComponent {
   };
 
   handleSearch = content => {
-     console.log(20180723173704, e, '搜索')
     this.doSearch();
   };
 
@@ -373,7 +372,9 @@ export default class OgpPipelineFoundationList extends PureComponent {
     };
 
     const confirm = (...rest) => {
-      message.success('审核成功');
+      let obj = rest[0][1];
+      obj.auditState = '已审核'
+      this.handleSave(obj, false, obj.pipelineId, "审核");
     }
     
     const extraContent = (
@@ -443,9 +444,11 @@ export default class OgpPipelineFoundationList extends PureComponent {
         title: '操作',
         fixed: 'right',
         render: (...rest) => (
+          rest[1].auditState === '已审核' ? 
+          <div><i class="anticon anticon-check-circle" style={{ color: '#87d068' }}></i> 审核成功</div> :
           <Popconfirm title="你确定要审核通过该任务?" onConfirm={() => { confirm(rest) }} okText="Yes" cancelText="No">
             <a>审核</a>
-          </Popconfirm>
+          </Popconfirm>  
         ),
       },
     ];

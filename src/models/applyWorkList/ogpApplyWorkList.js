@@ -13,6 +13,7 @@ export default {
       list: [],
       pagination: {},
     },
+    mockList: [0, 0, 0, 0, 0],
     domain: {},
   },
 

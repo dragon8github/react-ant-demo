@@ -103,7 +103,7 @@ export default class BasicLayout extends React.PureComponent {
     getPageTitle() {
         const { routerData, location } = this.props;
         const { pathname } = location;
-        let title = 'Ant Design Pro';
+        let title = 'Idea Design';
         let currRouterData = null;
         Object.keys(routerData).forEach(key => {
           if (pathToRegexp(key).test(pathname)) {
@@ -111,7 +111,7 @@ export default class BasicLayout extends React.PureComponent {
           }
         });
         if (currRouterData && currRouterData.name) {
-          title = `${currRouterData.name} - Ant Design Pro`;
+          title = `${currRouterData.name} - Idea Design`;
         }
         return title;
     }
@@ -178,7 +178,6 @@ export default class BasicLayout extends React.PureComponent {
       const { currentUser, collapsed, fetchingNotices, notices, routerData, match, location,  menuData,  redirectData, } = this.props;
       const { isMobile: mb } = this.state;
       let bashRedirect = this.getBaseRedirect();
-      
       const layout = (
         <Layout>
               <SiderMenu

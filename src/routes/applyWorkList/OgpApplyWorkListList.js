@@ -46,16 +46,18 @@ export default class BasicList extends PureComponent {
     dispatch(routerRedux.push(`/applyWorkList/ogpApplyWorkList-form/add/0`));
   };
 
-  handleShow = (e, key) => {
+  handleShow = (key = 0) => {
     const { dispatch } = this.props;
-      dispatch(routerRedux.push(`/applyWorkList/ogpApplyWorkList-profile/${key}`));
+    dispatch(routerRedux.push(`/applyWorkList/ogpApplyWorkList-profile/${key}`));
   };
 
   render() {
     const {
       list: { list },
       loading,
+      ogpApplyWorkList: { mockList }
     } = this.props;
+
 
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
@@ -133,16 +135,18 @@ export default class BasicList extends PureComponent {
               loading={loading}
               pagination={paginationProps}
               dataSource={list}
-              renderItem={item => (
-                <List.Item actions={[<a onClick={this.handleShow}>查看详情</a>]}>
-                    <List.Item.Meta
-                      avatar={<Avatar src={item.logo} shape="square" size="large" />}
-                      title={<a href={item.href}>{item.title}</a>}
-                      description={item.subDescription}
-                    />
-                    <ListContent data={item} />
-                </List.Item>
-              )}
+              renderItem={(item, index) => {
+                   const myCmp = mockList[index] ? <a onClick={() => { this.handleShow(index) }}><i className="anticon anticon-check-circle" style={{ color: '#87d068' }}></i> 已审核</a> : <a onClick={() => { this.handleShow(index) }} style={{width: 60, display: 'block'}}>审核</a>
+                   return <List.Item actions={[myCmp]}>
+                      <List.Item.Meta
+                        avatar={<Avatar src={item.logo} shape="square" size="large" />}
+                        title={<a href={item.href}>{item.title}</a>}
+                        description={item.subDescription}
+                      />
+                      <ListContent data={item} />
+                  </List.Item>
+
+              }}
             />
           </Card>
         </div>

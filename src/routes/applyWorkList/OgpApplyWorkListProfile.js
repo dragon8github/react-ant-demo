@@ -16,6 +16,7 @@ import {
   Table,
   Tooltip,
   Divider,
+  Input
 } from 'antd';
 import classNames from 'classnames';
 import DescriptionList from 'components/DescriptionList';
@@ -25,7 +26,7 @@ import styles from '../Profile/AdvancedProfile.less';
 const { Step } = Steps;
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
-
+const { TextArea } = Input;
 const getWindowWidth = () => window.innerWidth || document.documentElement.clientWidth;
 
 const menu = (
@@ -180,14 +181,16 @@ const columns = [
   },
 ];
 
-@connect(({ profile, loading }) => ({
+@connect(({ profile, ogpApplyWorkList, loading }) => ({
   profile,
+  ogpApplyWorkList,
   loading: loading.effects['profile/fetchAdvanced'],
 }))
 export default class AdvancedProfile extends Component {
   state = {
     operationkey: 'tab1',
     stepDirection: 'horizontal',
+    fakeLoding: false
   };
 
   componentDidMount() {
@@ -209,6 +212,26 @@ export default class AdvancedProfile extends Component {
     this.setState({ operationkey: key });
   };
 
+  handlesublime = e  => {
+      // 假装loading...
+      this.setState({ fakeLoding: true });
+
+      setTimeout(() => {
+          // 如何获取当前的key
+          const { ogpApplyWorkList, match } = this.props;
+          const key = match.params.pid
+
+          // 设置数据(不知道这样有没有作用，做好属性是只读的心里准备)
+          ogpApplyWorkList.mockList[key] = 1
+
+          // 重置
+          this.setState({ fakeLoding: false });
+
+          // 返回
+          history.back();
+      }, 1500);
+  }
+
   @Bind()
   @Debounce(200)
   setStepDirection() {
@@ -224,6 +247,8 @@ export default class AdvancedProfile extends Component {
       });
     }
   }
+
+ 
 
   render() {
     const { stepDirection, operationkey } = this.state;
@@ -338,6 +363,7 @@ export default class AdvancedProfile extends Component {
           </div>
         </Card>
         <Card
+           style={{ marginBottom: 24 }}
           className={styles.tabsCard}
           bordered={false}
           tabList={operationTabList}
@@ -345,6 +371,15 @@ export default class AdvancedProfile extends Component {
         >
           {contentList[operationkey]}
         </Card>
+
+        <Card title="审批备注" style={{ marginBottom: 24 }}  bordered={false}>
+          <TextArea rows={6} placeholder="Say Something..." />
+        </Card>
+
+        <Button type="primary" icon="upload" onClick={this.handlesublime} loading={this.state.fakeLoding}>提交</Button>
+        <Button icon="reload" style={{ marginLeft: 8 }} >
+                重置
+              </Button>
       </PageHeaderLayout>
     );
   }

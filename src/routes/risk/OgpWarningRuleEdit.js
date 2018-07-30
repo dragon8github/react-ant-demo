@@ -10,19 +10,6 @@ const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 const ButtonGroup = Button.Group;
 
-const mockData = [];
-'吕浩瀚、章鸿熙、李泽雨、彭鸿羲、马运发、方景浩、谢鸿信、金泽洋、卫哲瀚、吴浩慨、何胤运、史佑运、韦允晨、齐运恒'.split('、').forEach(function (e, i) {
-	mockData.push({
-			key: i.toString(),
-			title: e,
-			description: `description of ${e}`,
-			disabled: i % 3 < 1,  // 禁用
-  });
-});
-
-const targetKeys = mockData
-  .filter(item => +item.key % 3 > 1)
-  .map(item => item.key);
 
 @connect(({ ogpWarningRule, dictionary, loading }) => ({
   ogpWarningRule,
@@ -31,11 +18,6 @@ const targetKeys = mockData
 }))
 @Form.create()
 export default class OgpWarningRuleEdit extends PureComponent {
-
-	state = {
-    targetKeys,
-    selectedKeys: [],
-  }
 
   componentDidMount() {
     const {
@@ -115,30 +97,10 @@ export default class OgpWarningRuleEdit extends PureComponent {
       }
     });
 	};
-	
-	handleChange = (nextTargetKeys, direction, moveKeys) => {
-    this.setState({ targetKeys: nextTargetKeys });
-
-    console.log('targetKeys: ', targetKeys);
-    console.log('direction: ', direction);
-    console.log('moveKeys: ', moveKeys);
-  }
 
   goback = () => {
     history.back();
 	};
-	
-	handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-    this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] });
-
-    console.log('sourceSelectedKeys: ', sourceSelectedKeys);
-    console.log('targetSelectedKeys: ', targetSelectedKeys);
-  }
-
-  handleScroll = (direction, e) => {
-    console.log('direction:', direction);
-    console.log('target:', e.target);
-  }
 
   render() {
     const {
@@ -289,28 +251,6 @@ export default class OgpWarningRuleEdit extends PureComponent {
 							</FormItem>
 						</Col>
           </Row>
-					<Divider orientation="left">通知方式 <Icon type="bell" style={{ marginBottom: 20 }}/> </Divider>
-					<Row>
-						<Col md={24} sm={24}>
-								<FormItem  {...formItemLayout}  label="通知对象">		
-										<Transfer 
-												showSearch
-												dataSource={mockData}
-												listStyle={{
-													width: 268,
-													height: 300,
-												}}
-												titles={['通知人员', '已选人员']}
-												targetKeys={this.state.targetKeys}
-												selectedKeys={this.state.selectedKeys}
-												onChange={this.handleChange}
-												onSelectChange={this.handleSelectChange}
-												onScroll={this.handleScroll}
-												render={item => item.title}
-										/>
-								</FormItem>
-						</Col>
-          </Row>								
 					<Row>
 						<Col md={24} sm={24}>
 								<FormItem {...formItemLayout} label="是否启用">
@@ -327,6 +267,7 @@ export default class OgpWarningRuleEdit extends PureComponent {
 								</FormItem>
 							</Col>
 					</Row>
+				
       	  <Row>
 	        <Col md={12} sm={24}>
 	          <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

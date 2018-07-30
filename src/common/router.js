@@ -78,6 +78,16 @@ function getFlatMenuData(menus) {
 export const getRouterData = app => {
     const routerConfig = {
         '/': { component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')), },
+
+        '/map': {
+          component: dynamicWrapper(app, [], () => import('../routes/Map/map')),
+          authority: [ 'clouduser'],
+        },
+
+        '/mapPipeInfo': {
+          component: dynamicWrapper(app, [], () => import('../routes/Map/mapPipeInfo')),
+          authority: [ 'clouduser'],
+        },
         
         // demo1 管道基础信息管理
         '/opm/ogpPipelineFoundation-list': {

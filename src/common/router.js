@@ -78,16 +78,6 @@ function getFlatMenuData(menus) {
 export const getRouterData = app => {
     const routerConfig = {
         '/': { component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')), },
-
-        '/map': {
-          component: dynamicWrapper(app, [], () => import('../routes/Map/map')),
-          authority: [ 'clouduser'],
-        },
-
-        '/mapPipeInfo': {
-          component: dynamicWrapper(app, [], () => import('../routes/Map/mapPipeInfo')),
-          authority: [ 'clouduser'],
-        },
         
         // demo1 管道基础信息管理
         '/opm/ogpPipelineFoundation-list': {
@@ -101,6 +91,14 @@ export const getRouterData = app => {
         '/opm/ogpPipelineFoundation-form/:opertype/:pid': {
             component: dynamicWrapper(app, ['opm/ogpPipelineFoundation'], () => import('../routes/opm/OgpPipelineFoundationEdit')),
             authority: ['admin', 'clouduser'],
+        },
+        '/opm/map': {
+          component: dynamicWrapper(app, [], () => import('../routes/Map/map')),
+          authority: [ 'clouduser'],
+        },
+        '/opm/mapPipeInfo': {
+          component: dynamicWrapper(app, [], () => import('../routes/Map/mapPipeInfo')),
+          authority: [ 'clouduser'],
         },
 
         // demo1 任务管理

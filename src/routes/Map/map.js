@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Button } from 'antd';
+import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+const ButtonGroup = Button.Group;
 
-export default class test extends Component {
+export default class map extends Component {
 	constructor (props) {
 		super(props);
 	}
@@ -13,10 +16,22 @@ export default class test extends Component {
 	}
 
 	render () {
+		const action = (
+			<Fragment>
+			  <ButtonGroup>
+				<Button icon="rollback" onClick={this.goback}>
+				  返回
+				</Button>
+			  </ButtonGroup>
+			</Fragment>
+		  );
+		
 		return (
-			<div style={{ width: '100%', height: window.innerHeight - 100}}>
-				<iframe  style={{width: '100%', height: '100%'}} src="http://fuckyou.com/map.html" frameBorder="0"></iframe>
-			</div>
+			<PageHeaderLayout>
+				<div style={{ width: '100%', height: window.innerHeight - 150}}>
+					<iframe  style={{width: '100%', height: '100%'}} src="http://fuckyou.com/map.html" frameBorder="0"></iframe>
+				</div>
+			</PageHeaderLayout>
 		)
 	}
 }

@@ -60,7 +60,7 @@ export default class OgpWarningRuleEdit extends PureComponent {
 			} else{
 					datefields.createTime = '';
 			}
-			debugger;
+			
 			dispatch({
 						type: 'ogpWarningRule/save',
 						payload: {

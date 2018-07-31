@@ -48,14 +48,6 @@ export default class OgpWarningRuleList extends PureComponent {
     
     dispatch({
     	type: 'dictionary/loadDict',
-    	codetype: 'WARNING_TARGET',
-    });
-    dispatch({
-    	type: 'dictionary/loadDict',
-    	codetype: 'WARNING_COMPARE',
-    });
-    dispatch({
-    	type: 'dictionary/loadDict',
     	codetype: 'WARNING_LEVEL',
     });
     dispatch({
@@ -170,6 +162,10 @@ export default class OgpWarningRuleList extends PureComponent {
     this.doSearch();
   };
   
+  handleImport = () => {
+	const { dispatch } = this.props;
+    dispatch(routerRedux.push('/risk/ogpWarningRule-batch'));
+  };
 
   handleShow = (e, key) => {
 	const { dispatch } = this.props;
@@ -192,69 +188,50 @@ export default class OgpWarningRuleList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-      	<Col md={8} sm={24}>
+      	<Col md={6} sm={24}>
       	<FormItem label="预警规则名称">
-      		{getFieldDecorator('like_warningName')(<Input placeholder="请输入预警规则名称" />)}
+      		{getFieldDecorator('like_warningName')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
-      	<Col md={8} sm={24}>
-      	<FormItem label="指&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标">
-      		{getFieldDecorator('eq_target')(
-                <DictSelect
-                  placeholder="请选择指标"
-                  style={{ width: '100%' }}
-                  dictList={dictionary['WARNING_TARGET']}
-                />
-              )}
-      	</FormItem>
-      	</Col>
-      	<Col md={8} sm={24}>
-      	<FormItem label="比较方法">
-      		{getFieldDecorator('eq_compare')(
-                <DictSelect
-                  placeholder="请选择比较方法"
-                  style={{ width: '100%' }}
-                  dictList={dictionary['WARNING_COMPARE']}
-                />
-              )}
-      	</FormItem>
-      	</Col>
-      	
-      </Row>
-      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-      <Col md={8} sm={24}>
-      	<FormItem label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预警等级">
+      	<Col md={6} sm={24}>
+      	<FormItem label="预警等级">
       		{getFieldDecorator('eq_warningLevel')(
                 <DictSelect
-                  placeholder="请选择预警等级"
+                  placeholder="请选择"
                   style={{ width: '100%' }}
                   dictList={dictionary['WARNING_LEVEL']}
                 />
               )}
       	</FormItem>
       	</Col>
-      	<Col md={8} sm={24}>
-          <FormItem label="是否启用">
-            {getFieldDecorator('eq_enabled')(
-                  <DictSelect
-                    placeholder="请选择是否启用"
-                    style={{ width: '100%' }}
-                    dictList={dictionary['WARNING_ENABLED']}
-                  />
-                )}
-          </FormItem>
+      	<Col md={6} sm={24}>
+      	<FormItem label="是否启用">
+      		{getFieldDecorator('eq_enabled')(
+                <DictSelect
+                  placeholder="请选择"
+                  style={{ width: '100%' }}
+                  dictList={dictionary['WARNING_ENABLED']}
+                />
+              )}
+      	</FormItem>
       	</Col>
-        <Col md={8} sm={24}>
-            <div style={{ overflow: 'hidden' }}>
-                <Button icon="search" type="primary" htmlType="submit">
-                  查询
-                </Button>
-                <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                  重置
-                </Button>
-            </div>
-      	</Col>
+        <Col md={6} sm={24}>
+          <div style={{ overflow: 'hidden' }}>
+            <span style={{ float: 'left', marginBottom: 24 }}>
+              <Button icon="search" type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button icon="reload" style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+              {/* <Button icon="cloud-download-o" style={{ marginLeft: 8 }} onClick={this.handleImport}>
+                导入
+              </Button> */}
+            </span>
+          </div>
+        </Col>
       </Row>
+        
       </Form>
     );
   }
@@ -271,7 +248,6 @@ export default class OgpWarningRuleList extends PureComponent {
       {
         title: '预警规则ID',
         dataIndex: 'warningId',
-        fixed: 'left',
       },
       {
         title: '预警规则名称',
@@ -279,11 +255,11 @@ export default class OgpWarningRuleList extends PureComponent {
       },
       {
         title: '指标',
-        dataIndex: 'targetName',
+        dataIndex: 'target',
       },
       {
         title: '比较方法',
-        dataIndex: 'compareName',
+        dataIndex: 'compare',
       },
       {
         title: '阀值',
@@ -296,14 +272,6 @@ export default class OgpWarningRuleList extends PureComponent {
       {
         title: '是否启用',
         dataIndex: 'enabledName',
-      },
-      {
-        title: '角色ID列表',
-        dataIndex: 'roles',
-      },
-      {
-        title: '预警机制ID',
-        dataIndex: 'warningCallId',
       },
       {
         title: '创建时间',
@@ -319,7 +287,6 @@ export default class OgpWarningRuleList extends PureComponent {
       },
       {
         title: '操作',
-        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a onClick={e => this.handleEdit(e, record.warningId)}>编辑</a>
@@ -336,12 +303,12 @@ export default class OgpWarningRuleList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button type="dashed" style={{ width: '100%', marginBottom: 10 }} icon="plus" onClick={this.handleAdd}>
-                    新建
+            <Button type="dashed" style={{ width: '100%', marginBottom: 10 }} icon="plus" onClick={this.handleAdd}>
+                    新建机制
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="danger" style={{ marginBottom: 10, marginTop: 10 }} onClick={this.handleRemove}>
+                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>
@@ -355,7 +322,7 @@ export default class OgpWarningRuleList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               rowKey="warningId"
-              scroll={{ x: 1600 }}
+              scroll={{ x: 1300 }}
             />
           </div>
         </Card>

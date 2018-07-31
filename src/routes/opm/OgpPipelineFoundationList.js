@@ -276,8 +276,8 @@ export default class OgpPipelineFoundationList extends PureComponent {
   };
 
   handleAddMap = e => {
-    console.log(20180723173507, '地图建模')
-    window.open('http://192.168.8.128:8083/html/map.html')
+    const { dispatch } = this.props;
+    dispatch(routerRedux.push(`/opm/mapPipeInfo`));
   };
 
   handleModalVisible = flag => {

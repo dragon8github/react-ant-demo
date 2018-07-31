@@ -180,13 +180,13 @@ export default class OgpWarningCallList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-      	<Col md={6} sm={24}>
-      	<FormItem label="预警机制名称">
+      	<Col md={8} sm={24}>
+      	<FormItem label="机制名称">
       		{getFieldDecorator('like_warningCallName')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="预警通知方式">
+      	<Col md={8} sm={24}>
+      	<FormItem label="通知方式">
       		{getFieldDecorator('eq_callWay')(
                 <DictSelect
                   placeholder="请选择"
@@ -196,19 +196,26 @@ export default class OgpWarningCallList extends PureComponent {
               )}
       	</FormItem>
       	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="预警通知人帐号">
-      		{getFieldDecorator('eq_callAccount')(<Input placeholder="请输入" />)}
+      	<Col md={8} sm={24}>
+      	<FormItem label="通知人帐号">
+      		{getFieldDecorator('like_callAccount')(<Input placeholder="请输入" />)}
       	</FormItem>
       	</Col>
-      	<Col md={6} sm={24}>
-      	<FormItem label="预警通知人姓名">
-      		{getFieldDecorator('eq_callName')(<Input placeholder="请输入" />)}
-      	</FormItem>
-      	</Col>
+      
       </Row>
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+      <Col md={8} sm={24}>
+      	<FormItem label="通知人姓名">
+      		{getFieldDecorator('like_callName')(<Input placeholder="请输入" />)}
+      	</FormItem>
+      	</Col>
+      	<Col md={8} sm={24}>
+      	<FormItem label="规则名称">
+      		{getFieldDecorator('like_ruleName')(<Input placeholder="请输入" />)}
+      	</FormItem>
+      	</Col>
         <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
+          <span style={{ float: 'left', marginBottom: 24 }}>
             <Button icon="search" type="primary" htmlType="submit">
               查询
             </Button>
@@ -217,6 +224,8 @@ export default class OgpWarningCallList extends PureComponent {
             </Button>
           </span>
         </div>
+      </Row>
+        
       </Form>
     );
   }
@@ -231,24 +240,36 @@ export default class OgpWarningCallList extends PureComponent {
 
     const columns = [
       {
-        title: '预警机制ID',
+        title: '机制ID',
         dataIndex: 'warningCallId',
       },
       {
-        title: '预警机制名称',
+        title: '机制名称',
         dataIndex: 'warningCallName',
       },
       {
-        title: '预警通知方式',
+        title: '通知方式',
         dataIndex: 'callWayName',
       },
       {
-        title: '预警通知人帐号',
+        title: '通知人编码',
+        dataIndex: 'callId',
+      },
+      {
+        title: '通知人帐号',
         dataIndex: 'callAccount',
       },
       {
-        title: '预警通知人姓名',
+        title: '通知人姓名',
         dataIndex: 'callName',
+      },
+      {
+        title: '规则编码',
+        dataIndex: 'ruleId',
+      },
+      {
+        title: '规则名称',
+        dataIndex: 'ruleName',
       },
       {
         title: '创建时间',
@@ -281,11 +302,11 @@ export default class OgpWarningCallList extends PureComponent {
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
               <Button type="dashed" style={{ width: '100%', marginBottom: 10 }} icon="plus" onClick={this.handleAdd}>
-                    新建
+                    新建机制
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button icon="minus" type="danger" style={{ marginBottom: 10, marginTop: 10 }} onClick={this.handleRemove}>
+                  <Button icon="minus" type="dashed" onClick={this.handleRemove}>
                     删除
                   </Button>
                 </span>
